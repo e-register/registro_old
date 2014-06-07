@@ -8,4 +8,6 @@ class Evaluation < ActiveRecord::Base
 	belongs_to :subjects
 	# the score of the evaluation
 	belongs_to :scores
+	# the evaluation may be in a class test group
+	belongs_to :class_tests
 end
