@@ -7,14 +7,14 @@ class Credential < ActiveRecord::Base
 	
 	# check if the username and the password are valid
 	# return a User if the login is correct, nil otherwise
-	def self.check username, password
+	def self.check options = {}
 		begin
 			# search for a credential with the exact username
-			credential = Credential.where(username: username).first
+			credential = Credential.where(username: options[:username]).first
 			return nil if !credential
 			
 			# if the password hash is valid	
-			if PasswordHash.validatePassword(password, credential.password)
+			if PasswordHash.validatePassword(options[:password], credential.password)
 				return credential.user
 			else
 				return nil

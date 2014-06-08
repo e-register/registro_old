@@ -1,10 +1,31 @@
 class UsersController < ApplicationController
-
-	def login		
-		if get?
+	
+	# the login form & the login action
+	def login
+		# if the user is alread logged in, redirect him somewhere
+		if session[:token]
+			redirect_to root_path
+		end
+		# if the request is the form, show it!
+		if request.get?
 			# render...
-		else
-			# do login & redirect
+		# if the request is a login from username & password
+		elsif request.post?
+			# check the username and the password presence
+			if params[:login][:username] && params[:login][:password]
+				# check if they are correct
+				user = Credential.check params[:login]
+				unless user
+					flash[:error] = "Username/Password errati"
+				else
+					# login the user and generate a new token
+					token = user.get_new_token
+					session[:token] = token
+					flash[:error] = "Login effettuato"
+				end
+			else
+				head :bad_request
+			end
 		end
 	end
 	

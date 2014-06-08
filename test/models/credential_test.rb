@@ -8,7 +8,7 @@ class CredentialTest < ActiveSupport::TestCase
   	username = "edoardo"
   	password = "password"
   	
-  	assert_equal edoardo, Credential.check(username, password)
+  	assert_equal edoardo, Credential.check(username: username, password: password)
   	
   end
   
@@ -18,7 +18,7 @@ class CredentialTest < ActiveSupport::TestCase
   	username = "elia"
   	password = "Password"
   	
-  	assert_not_equal elia, Credential.check(username, password)
+  	assert_not_equal elia, Credential.check(username: username, password: password)
 
   end
   
@@ -26,7 +26,7 @@ class CredentialTest < ActiveSupport::TestCase
   	username = "dskjbvdskvjbdksbvdsbvdsbvvbdsb"
   	password = "password"
   	
-  	assert_nil Credential.check(username, password)
+  	assert_nil Credential.check(username: username, password: password)
   end
   
 end
