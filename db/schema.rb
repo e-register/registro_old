@@ -67,12 +67,12 @@ ActiveRecord::Schema.define(version: 20140608185649) do
   end
 
   create_table "teachers", id: false, force: true do |t|
-    t.integer "user_id"
+    t.integer "teacher_id"
     t.integer "subject_id"
     t.integer "class_info_id"
   end
 
-  add_index "teachers", ["user_id", "subject_id", "class_info_id"], name: "index_teachers_on_user_id_and_subject_id_and_class_info_id", unique: true, using: :btree
+  add_index "teachers", ["teacher_id", "subject_id", "class_info_id"], name: "index_teachers_on_teacher_id_and_subject_id_and_class_info_id", unique: true, using: :btree
 
   create_table "tokens", force: true do |t|
     t.string   "token"

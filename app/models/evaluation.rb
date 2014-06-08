@@ -8,9 +8,9 @@ class Evaluation < ActiveRecord::Base
 	# link to the student who own the evaluation
 	belongs_to :student, :class_name => User
 	# the subject of the evaluation
-	belongs_to :subjects
+	belongs_to :subject
 	# the score of the evaluation
-	belongs_to :scores
+	belongs_to :score
 	# the evaluation may be in a class test group
-	belongs_to :class_tests
+	belongs_to :class_test
 end

@@ -48,11 +48,11 @@ class Base < ActiveRecord::Migration
   	end
   	
   	create_table :teachers, force: true, id: false do |t|
-		t.belongs_to :user
+		t.belongs_to :teacher
 		t.belongs_to :subject
 		t.belongs_to :class_info
   	end
-  	add_index :teachers, [:user_id, :subject_id, :class_info_id], unique: true
+  	add_index :teachers, [:teacher_id, :subject_id, :class_info_id], unique: true
   	
   	create_table :scores, force: true do |t|
   		t.string :text, limit: 10
