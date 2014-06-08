@@ -1,19 +1,25 @@
 # the association username-password with some other details
 class Credential < ActiveRecord::Base
+	include PasswordHash
+
 	# a credential is associated with only one user
-	belongs_to :users
+	belongs_to :user
 	
-	def check username, password
+	# check if the username and the password are valid
+	# return a User if the login is correct, nil otherwise
+	def self.check username, password
 		begin
-			credential = Credential.where(username: username)
+			# search for a credential with the exact username
+			credential = Credential.where(username: username).first
 			return nil if !credential
-			# TODO check password
-			if validatePassword(password, self.password)
-				return credential.user 
+			
+			# if the password hash is valid	
+			if PasswordHash.validatePassword(password, credential.password)
+				return credential.user
 			else
 				return nil
 			end
-		rescue
+		rescue 
 			return nil
 		end
 	end
