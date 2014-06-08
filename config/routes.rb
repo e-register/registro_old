@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  root :to => 'evaluations#index'
+
 	get '/evaluations' => 'evaluations#index'
 	get '/evaluations/show' => 'evaluations#show'
 	get '/evaluations/show/:id' => 'evaluations#show'
