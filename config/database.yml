@@ -12,7 +12,7 @@ development:
 
 test:
   <<: *default
-  database: registro_test
+  database: registro
 
 production:
   <<: *default

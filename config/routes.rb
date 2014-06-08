@@ -4,10 +4,8 @@ Rails.application.routes.draw do
 	root :to => 'evaluations#index'
 
 	get '/evaluations' => 'evaluations#index', as: 'evaluations'
-	get '/evaluations/show' => 'evaluations#show'
-	get '/evaluations/show/:id' => 'evaluations#show'
-	get '/evaluations/:id' => 'evaluations#show', as: 'evaluation'
 	
+	get '/evaluations/class', to: redirect('/evaluations')
 	get '/evaluations/class/:id' => 'evaluations#show_class'
 	get '/evaluations/user/:id' => 'evaluations#show_user'
 	
@@ -22,5 +20,9 @@ Rails.application.routes.draw do
 	
 	get '/evaluations/mult' => 'evaluations#mult'
 	post '/evaluations/mult' => 'evaluations#mult'
+		
+	get '/evaluations/show' => 'evaluations#show'
+	get '/evaluations/show/:id' => 'evaluations#show'
+	get '/evaluations/:id' => 'evaluations#show', as: 'evaluation'
 
 end
