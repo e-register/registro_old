@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140608124834) do
+ActiveRecord::Schema.define(version: 20140608142447) do
 
   create_table "class_infos", force: true do |t|
     t.string  "name"
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20140608124834) do
     t.date     "date"
     t.integer  "score_id"
     t.integer  "subject_id"
-    t.integer  "type"
+    t.integer  "evaluation_type"
     t.string   "description"
     t.integer  "class_test_id"
     t.datetime "created_at"
