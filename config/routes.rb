@@ -22,17 +22,17 @@ Rails.application.routes.draw do
 	post '/user/logout' => 'users#logout', as: 'logout'
 	
 	get '/user/user/:id' => 'users#user'
-	get '/user/:id' => 'user#user', as: 'user'
+	get '/user/:id' => 'users#user', as: 'user'
 	
-	get '/user/edit' => 'user#edit', as: 'edit'
-	put '/user/edit' => 'user#update'
-	patch '/user/edit' => 'user#update'
+	get '/user/edit' => 'users#edit', as: 'edit'
+	put '/user/edit' => 'users#update'
+	patch '/user/edit' => 'users#update'
 	
-	get '/user/edit/:id' => 'user#edit'
-	put '/user/edit/:id' => 'user#update'
-	patch '/user/edit/:id' => 'user#update'
+	get '/user/edit/:id' => 'users#edit'
+	put '/user/edit/:id' => 'users#update'
+	patch '/user/edit/:id' => 'users#update'
 	
-	get '/user/new' => 'user#new', as: 'new_user'
-	post '/user/new' => 'user#create'
+	get '/user/new' => 'users#new', as: 'new_user'
+	post '/user/new' => 'users#create'
 
 end
