@@ -3,26 +3,36 @@ Rails.application.routes.draw do
 	# TODO edit to get to the application controller
 	root :to => 'evaluations#index'
 
-	get '/evaluations' => 'evaluations#index', as: 'evaluations'
+	# ---------------
+	#   EVALUATIONS
+	# ---------------
+	resource :evaluations
 	
-	get '/evaluations/class', to: redirect('/evaluations')
 	get '/evaluations/class/:id' => 'evaluations#show_class'
 	get '/evaluations/user/:id' => 'evaluations#show_user'
+	get '/evaluation/:id/edit' => 'evaluations#edit'
+	get '/evaluation/:id' => 'evaluations#show'
 	
-	get '/evaluations/:id/edit' => 'evaluations#edit', as: 'edit_evaluation'
-	put '/evaluations/:id/edit' => 'evaluations#edit'
-	patch '/evaluations/:id/edit' => 'evaluations#edit'
 	
-	delete '/evaluations/:id/delete' => 'evaluations#delete'
+	# ---------------
+	#   USERS
+	# ---------------	
+	get '/user/login' => 'users#login', as: 'login'
+	post '/user/login' => 'users#login'
+	post '/user/logout' => 'users#logout', as: 'logout'
 	
-	get '/evaluations/new' => 'evaluations#new', as: 'new_evaluation'
-	post '/evaluations/new' => 'evaluations#new'
+	get '/user/user/:id' => 'users#user'
+	get '/user/:id' => 'user#user', as: 'user'
 	
-	get '/evaluations/mult' => 'evaluations#mult'
-	post '/evaluations/mult' => 'evaluations#mult'
-		
-	get '/evaluations/show' => 'evaluations#show'
-	get '/evaluations/show/:id' => 'evaluations#show'
-	get '/evaluations/:id' => 'evaluations#show', as: 'evaluation'
+	get '/user/edit' => 'user#edit', as: 'edit'
+	put '/user/edit' => 'user#update'
+	patch '/user/edit' => 'user#update'
+	
+	get '/user/edit/:id' => 'user#edit'
+	put '/user/edit/:id' => 'user#update'
+	patch '/user/edit/:id' => 'user#update'
+	
+	get '/user/new' => 'user#new', as: 'new_user'
+	post '/user/new' => 'user#create'
 
 end
