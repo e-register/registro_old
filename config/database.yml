@@ -16,6 +16,6 @@ test:
 
 production:
   <<: *default
-  database: registro_production
-  username: registro
-  password: <%= ENV['REGISTRO_DATABASE_PASSWORD'] %>
+  database: registro
+  username: root
+  password: password
