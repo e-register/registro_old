@@ -1,10 +1,7 @@
 default: &default
   adapter: mysql2
   encoding: utf8
-  pool: 5
-  username: root
-  password: password
-  socket: /var/run/mysqld/mysqld.sock
+  username: travis  
 
 development:
   <<: *default
@@ -12,7 +9,7 @@ development:
 
 test:
   <<: *default
-  database: registro
+  database: registro_test
 
 production:
   <<: *default
