@@ -17,6 +17,7 @@ class UsersController < ApplicationController
 				@user = Credential.check params[:login]
 				unless @user
 					flash[:error] = "Username/Password errati"
+					LoginFail.bad_password request.remote_ip, params[:login]
 				else
 					# login the user and generate a new token
 					token = @user.get_new_token
