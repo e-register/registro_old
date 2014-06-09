@@ -23,7 +23,7 @@ class UsersController < ApplicationController
 					# login the user and generate a new token
 					token = @user.get_new_token
 					session[:token] = token
-					flash[:error] = "Login effettuato"
+					flash[:info] = "Login effettuato"
 					redirect_to root_path
 				end
 			else
@@ -35,11 +35,11 @@ class UsersController < ApplicationController
 	def logout
 		# if the user wasn't logged it
 		unless session[:token]
-			flash[:error] = "L'utente non era connesso"
+			flash[:warning] = "L'utente non era connesso"
 			redirect_to login_path
 		else
 			session[:token] = nil
-			flash[:error] = "Utente disconnesso"
+			flash[:info] = "Utente disconnesso"
 			redirect_to login_path
 		end
 	end

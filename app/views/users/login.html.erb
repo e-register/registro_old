@@ -1,8 +1,19 @@
-<div class="col-md-4">
-	<%= flash[:error] %>
+<div class="col-md-4 col-md-offset-4" id="login-area">
+	<% if flash[:error] %>
+		<div class="alert alert-danger"><%= flash[:error] %></div>
+	<% end %>
+	<% if flash[:warning] %>
+		<div class="alert alert-warning"><%= flash[:warning] %></div>
+	<% end %>
+	<% if flash[:info] %>
+		<div class="alert alert-info"><%= flash[:info] %></div>
+	<% end %>
+	<div class="panel panel-success">
 	<%= form_for :login do |f| %>
 		Username: <%= f.text_field :username, class: "form-control" %> <br>
 		Password: <%= f.password_field :password, class: "form-control" %> <br>
 		<%= f.submit "Accedi", class: [ "btn", "btn-success" ] %>
+		<%= button_tag "Cancella", type: :reset, class: [ "btn", "btn-warning" ] %>
 	<% end %>
+	</div>
 </div>
