@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140608185649) do
+ActiveRecord::Schema.define(version: 20140609071809) do
 
   create_table "class_infos", force: true do |t|
     t.string  "name"
@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(version: 20140608185649) do
     t.integer "year"
     t.integer "admin_id"
   end
+
+  add_index "class_infos", ["name", "specialization"], name: "index_class_infos_on_name_and_specialization", unique: true, using: :btree
 
   create_table "class_tests", force: true do |t|
     t.string "description", limit: 500
