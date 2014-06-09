@@ -3,19 +3,19 @@ user_edoardo:
     surname: Morassutto
     born_date: 1997-01-07
     born_city: Pordenone
-    gender: 0
-    user_type: 2
+    gender: <%= User.genders[:male] %>
+    user_type: <%= User.user_types[:student] %>
 user_elia:
     name: Elia
     surname: Morassutto
     born_date: 1998-09-14
     born_city: Pordenone
-    gender: 0
-    user_type: 2
+    gender: <%= User.genders[:male] %>
+    user_type: <%= User.user_types[:student] %>
 user_prof:
     name: Anna
     surname: Rossi
     born_date: 1950-01-01
     born_city: Roma
-    gender: 1
-    user_type: 1
+    gender: <%= User.genders[:female] %>
+    user_type: <%= User.user_types[:teacher] %>

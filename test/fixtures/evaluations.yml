@@ -4,7 +4,7 @@ eval_1:
     date: 2014-06-08
     score: score_8
     subject: mate
-    evaluation_type: 1
+    evaluation_type: <%= Evaluation.evaluation_types[:oral] %>
     description: valutazione 1
     class_test: class_test_1
 eval_2:
@@ -13,6 +13,6 @@ eval_2:
     date: 2014-06-07
     score: score_6
     subject: mate
-    evaluation_type: 0
+    evaluation_type: <%= Evaluation.evaluation_types[:written] %>
     description: valutazione 2
     class_test: class_test_1
