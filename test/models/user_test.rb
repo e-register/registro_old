@@ -26,4 +26,17 @@ class UserTest < ActiveSupport::TestCase
 		assert_equal "female", user.gender
 		
 	end
+	
+	test "New token works" do
+		user = Credential.check username: "edoardo", password: "password"
+		token = user.get_new_token
+		
+		t = Token.where(token: token.token).first
+		
+		assert_not_nil t
+		
+		assert_equal token.token, t.token
+		assert_equal user, t.user
+		assert_equal token, t
+	end
 end

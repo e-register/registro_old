@@ -3,6 +3,7 @@ eval_1:
     student: user_edoardo
     date: 2014-06-08
     score: score_8
+    subject: mate
     evaluation_type: 1
     description: valutazione 1
     class_test: class_test_1
@@ -11,6 +12,7 @@ eval_2:
     student: user_elia
     date: 2014-06-07
     score: score_6
+    subject: mate
     evaluation_type: 0
     description: valutazione 2
     class_test: class_test_1

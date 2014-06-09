@@ -7,7 +7,6 @@ class TokenTest < ActiveSupport::TestCase
 
     assert_not_nil token
     
-    assert_equal edoardo, token.user
-    
+    assert_equal edoardo, token.user    
   end
 end
