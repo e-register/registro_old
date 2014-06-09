@@ -73,43 +73,4 @@ module PasswordHash
     return pbkdf2 == testHash
   end
 
-  # Run tests to ensure the module is functioning properly.
-  # Returns true if all tests succeed, false if not.
-  def self.runSelfTests
-    puts "Sample hashes:"
-    3.times { puts createHash("password") }
-
-    puts "\nRunning self tests..."
-    @@allPass = true
-
-    correctPassword = 'aaaaaaaaaa'
-    wrongPassword = 'aaaaaaaaab'
-    hash = createHash(correctPassword)
-
-    assert( validatePassword( correctPassword, hash ) == true, "correct password" )
-    assert( validatePassword( wrongPassword, hash ) == false, "wrong password" )
-
-    h1 = hash.split( SECTION_DELIMITER )
-    h2 = createHash( correctPassword ).split( SECTION_DELIMITER )
-    assert( h1[HASH_INDEX] != h2[HASH_INDEX], "different hashes" )
-    assert( h1[SALT_INDEX] != h2[SALT_INDEX], "different salt" )
-
-    if @@allPass
-      puts "*** ALL TESTS PASS ***"
-    else
-      puts "*** FAILURES ***"
-    end
-
-    return @@allPass
-  end
-
-  def self.assert( truth, msg )
-    if truth
-      puts "PASS [#{msg}]"
-    else
-      puts "FAIL [#{msg}]"
-      @@allPass = false
-    end
-  end
-
 end
