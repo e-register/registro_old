@@ -5,6 +5,7 @@ class UsersController < ApplicationController
 		# if the user is alread logged in, redirect him somewhere
 		if session[:token]
 			redirect_to root_path
+			return
 		end
 		# if the request is the form, show it!
 		if request.get?

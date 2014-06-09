@@ -19,8 +19,6 @@ class Credential < ActiveRecord::Base
 			else
 				return nil
 			end
-		rescue 
-			return nil
 		end
 	end
 end

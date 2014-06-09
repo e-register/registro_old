@@ -19,6 +19,14 @@ class UsersControllerTest < ActionController::TestCase
 		assert_response :ok
 	end
 	
+	test "already logged in" do
+		post :login, 
+			{ :login => { :username => "edoardo", :password => "password" } }, 
+			{ :token => "a" }
+			
+		assert_redirected_to root_path
+	end
+	
 	test "bad login, missing parameter" do
 		post :login, {}
 		assert_response :bad_request

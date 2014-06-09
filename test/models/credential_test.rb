@@ -29,6 +29,15 @@ class CredentialTest < ActiveSupport::TestCase
   	assert_nil Credential.check(username: username, password: password)
   end
   
+  test "bad password" do
+
+  	username = "edoardo"
+  	password = "Password"
+  	
+  	assert_nil Credential.check(username: username, password: password)
+  	
+  end
+  
   test "PasswordHash test" do
   	correctPassword = rand(36**15).to_s(36)
   	wrongPassword = rand(36**15).to_s(36)
