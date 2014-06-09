@@ -40,3 +40,4 @@ gem "unicorn-rails"
 #gem 'debugger', group: [:development, :test]
 
 gem 'rb-readline'
+gem 'coveralls', require: false

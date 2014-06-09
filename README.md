@@ -36,3 +36,6 @@ La fase iniziale del progetto subirà un rallentamento per apprendere appieno le
 funzionalità messe a disposizione da Rails, capire bene come vanno organizzati 
 i modelli e come gestire tutto. Appena mi sarò impratichito bene il progetto
 avrà un rapido aumento di produzione.
+
+
+[![Build Status](https://travis-ci.org/registro-dev/registro.svg?branch=master)](https://travis-ci.org/registro-dev/registro)
