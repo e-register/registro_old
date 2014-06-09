@@ -19,7 +19,7 @@ Rails.application.routes.draw do
 	# ---------------	
 	get '/user/login' => 'users#login', as: 'login'
 	post '/user/login' => 'users#login'
-	post '/user/logout' => 'users#logout', as: 'logout'
+	get '/user/logout' => 'users#logout', as: 'logout'
 	
 	get '/user/user/:id' => 'users#user'
 	get '/user/:id' => 'users#user', as: 'user'

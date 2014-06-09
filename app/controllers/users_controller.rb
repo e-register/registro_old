@@ -9,6 +9,7 @@ class UsersController < ApplicationController
 		# if the request is the form, show it!
 		if request.get?
 			# render...
+			@user = User.all.first
 		# if the request is a login from username & password
 		elsif request.post?
 			# check the username and the password presence
@@ -22,6 +23,7 @@ class UsersController < ApplicationController
 					token = user.get_new_token
 					session[:token] = token
 					flash[:error] = "Login effettuato"
+					redirect_to root_path
 				end
 			else
 				head :bad_request
@@ -30,7 +32,15 @@ class UsersController < ApplicationController
 	end
 	
 	def logout
-		# logout
+		# if the user wasn't logged it
+		unless session[:token]
+			flash[:error] = "L'utente non era connesso"
+			redirect_to login_path
+		else
+			session[:token] = nil
+			flash[:error] = "Utente disconnesso"
+			redirect_to login_path
+		end
 	end
 	
 	def user
