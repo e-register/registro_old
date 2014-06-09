@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140609071809) do
+ActiveRecord::Schema.define(version: 20140609165911) do
 
   create_table "class_infos", force: true do |t|
     t.string  "name"
@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(version: 20140609071809) do
     t.date    "born_date"
     t.string  "born_city"
     t.integer "gender"
+    t.integer "user_type"
   end
 
 end

@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 	
 	before_filter :need_login, :only => [ :user, :edit, :update, :new, :create ]
+	before_filter :validate_id, :only => [ :user, :edit, :update ]
 	
 	# the login form & the login action
 	def login
@@ -71,7 +72,16 @@ class UsersController < ApplicationController
 	# ==================
 	protected
 	
+	# check if the user is logged in
 	def need_login
 		redirect_to login_path unless session[:token]
+	end
+	
+	# check if the id parameter is valid
+	def validate_id
+		unless params[:id] && params[:id].to_i > 0
+			flash[:error] = "Identificativo non valido"
+			redirect_to root_path
+		end
 	end
 end

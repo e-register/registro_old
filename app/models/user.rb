@@ -2,6 +2,8 @@
 class User < ActiveRecord::Base
 	# the gender of the user
 	enum gender: [ :male, :female ]
+	# the type of the user
+	enum user_type: [ :admin, :teacher, :student ]
 
 	# a user can have more than one login account
 	has_many :credentials

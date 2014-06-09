@@ -17,12 +17,10 @@ class EvaluationsControllerTest < ActionController::TestCase
 	end
 	
 	test "show with malformed id" do
-		get :show, { 'id' => "a" }		
-		assert_response :found
+		get :show, { 'id' => "a" }
 		assert_redirected_to root_path
 		
 		get :show, { 'id' => "" }
-		assert_response :found
 		assert_redirected_to root_path
 	end
 end

@@ -67,16 +67,16 @@ class EvaluationsController < ApplicationController
 		# TODO process the multiple-create request
 	end
 	
-	#
-	# ====== PROTECTED SECTION ======
-	#	
+	# ==================
+	#     PROTECTED
+	# ==================	
 	protected
 	
 	# check if the id parameter is valid
 	def validate_id
 		unless params[:id] && params[:id].to_i > 0
 			flash[:error] = "Identificativo non valido"
-			redirect_to root_path, status: :found
+			redirect_to root_path
 		end
 	end
 	
