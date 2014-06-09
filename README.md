@@ -39,3 +39,4 @@ avrà un rapido aumento di produzione.
 
 
 [![Build Status](https://travis-ci.org/registro-dev/registro.svg?branch=master)](https://travis-ci.org/registro-dev/registro)
+[![Coverage Status](https://coveralls.io/repos/registro-dev/registro/badge.png?branch=master)](https://coveralls.io/r/registro-dev/registro?branch=master)
