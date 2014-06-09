@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
 	
+	before_filter :need_login, :only => [ :user, :edit, :update, :new, :create ]
+	
 	# the login form & the login action
 	def login
 		# if the user is alread logged in, redirect him somewhere
@@ -45,7 +47,7 @@ class UsersController < ApplicationController
 	end
 	
 	def user
-		# more complicated stuff...
+		
 	end
 	
 	def edit
@@ -62,5 +64,14 @@ class UsersController < ApplicationController
 	
 	def create
 		# create the user & redirect
+	end
+	
+	# ==================
+	#     PROTECTED
+	# ==================
+	protected
+	
+	def need_login
+		redirect_to login_path unless session[:token]
 	end
 end
