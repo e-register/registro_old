@@ -9,18 +9,17 @@ class UsersController < ApplicationController
 		# if the request is the form, show it!
 		if request.get?
 			# render...
-			@user = User.all.first
 		# if the request is a login from username & password
 		elsif request.post?
 			# check the username and the password presence
-			if params[:login][:username] && params[:login][:password]
+			if params[:login] && params[:login][:username] && params[:login][:password]
 				# check if they are correct
-				user = Credential.check params[:login]
-				unless user
+				@user = Credential.check params[:login]
+				unless @user
 					flash[:error] = "Username/Password errati"
 				else
 					# login the user and generate a new token
-					token = user.get_new_token
+					token = @user.get_new_token
 					session[:token] = token
 					flash[:error] = "Login effettuato"
 					redirect_to root_path
