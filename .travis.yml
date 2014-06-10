@@ -8,8 +8,7 @@ env:
   - DB=mysql
   - DB=postgresql
 script:
-  - bundle install
   - RAILS_ENV=test bundle exec rake --trace db:migrate test
 before_script:
-  - mysql -e "create database registro"
+  - mysql -e 'create database registro'
   - psql -c 'create database registro' -U postgres
