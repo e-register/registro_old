@@ -72,7 +72,6 @@ class UsersController < ApplicationController
 		# TODO aggiungere controllo sull'accesso e sui permessi
 	
 		if not params[:id]
-			puts "DDDDDDDDDDDDDDDDDDDD"
 			redirect_to edit_path
 			return
 		end
@@ -82,7 +81,6 @@ class UsersController < ApplicationController
 		
 		if not user
 			flash.now[:error] = "Utente non trovato"
-			puts "CCCCCCCCCCCCCCCCCCC"
 			redirect_to edit_path
 			return
 		end
@@ -93,13 +91,11 @@ class UsersController < ApplicationController
 		
 		unless user.save			
 			flash[:error] = "Impossibile salvare le informazioni"
-			puts "AAAAAAAAAAAAAA"
 			redirect_to_edit user
 			return
 		end
 		
 		flash[:info] = "Informazioni salvate"
-		puts "BBBBBBBBBBBBBBBBb"
 		redirect_to_edit user
 	end
 	
