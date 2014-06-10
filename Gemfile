@@ -41,3 +41,6 @@ gem "unicorn-rails"
 
 gem 'rb-readline'
 gem 'coveralls', require: false
+
+gem 'sqlite3'
+gem 'pg'

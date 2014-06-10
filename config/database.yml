@@ -1,6 +1,6 @@
 sqlite: &sqlite
   adapter: sqlite3
-  database: db/<%= Rails.env %>.sqlite3
+  database: db/registro.sqlite3
 
 mysql: &mysql
   adapter: mysql2
@@ -11,7 +11,7 @@ postgresql: &postgresql
   adapter: postgresql
   username: postgres
   password:
-  database: myapp_<%= Rails.env %>
+  database: registro
   min_messages: ERROR
 
 home: &home
