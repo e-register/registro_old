@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 	
 	before_filter :need_login, :only => [ :user, :edit, :update, :new, :create ]
-	before_filter :validate_id, :only => [ :user, :edit, :update ]
+	before_filter :validate_id, :only => [ :edit, :update ]
 	
 	# the login form & the login action
 	def login
@@ -26,6 +26,7 @@ class UsersController < ApplicationController
 					# login the user and generate a new token
 					token = @user.get_new_token
 					session[:token] = token
+					session[:user_id] = @user.id
 					flash[:info] = "Login effettuato"
 					redirect_to root_path
 				end
@@ -42,13 +43,14 @@ class UsersController < ApplicationController
 			redirect_to login_path
 		else
 			session[:token] = nil
+			session[:user_id] = nil
 			flash[:info] = "Utente disconnesso"
 			redirect_to login_path
 		end
 	end
 	
 	def user
-		
+		params[:id] = session[:user_id] if params[:id] == "me"
 	end
 	
 	def edit

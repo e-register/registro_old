@@ -23,6 +23,7 @@ Rails.application.routes.draw do
 	
 	get '/user/user/:id' => 'users#user'
 	get '/user/:id' => 'users#user', as: 'user'
+	get '/user', to: redirect('/user/me')
 	
 	get '/user/edit' => 'users#edit', as: 'edit'
 	put '/user/edit' => 'users#update'
