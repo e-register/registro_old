@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20140609165911) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "class_infos", force: true do |t|
     t.string  "name"
     t.string  "specialization"

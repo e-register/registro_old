@@ -189,6 +189,9 @@ class UsersControllerTest < ActionController::TestCase
 	end
 	
 	test "update myself with invaid parameters" do
+		# skip this test on sqlite
+		skip if ENV["DB"] == 'sqlite'
+	
 		edoardo = users(:user_edoardo)
 		
 		p = {
@@ -205,6 +208,9 @@ class UsersControllerTest < ActionController::TestCase
 		assert_redirected_to own_edit_path		
 	end
 	test "update with invaid parameters" do
+		# skip this test on sqlite
+		skip if ENV["DB"] == 'sqlite'
+	
 		elia = users(:user_elia)
 		edoardo = users(:user_edoardo)
 		
