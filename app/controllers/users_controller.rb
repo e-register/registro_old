@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 	
 	before_filter :need_login, :only => [ :user, :edit, :update, :new, :create ]
-	before_filter :validate_id, :only => [ :edit, :update ]
+	before_filter :validate_id, :only => [ :user, :edit, :update ]
 	
 	# the login form & the login action
 	def login
@@ -50,10 +50,7 @@ class UsersController < ApplicationController
 	end
 	
 	def user
-	    # if the user asked /user/me replace the id with the user's one 
-		params[:id] = session[:user_id] if params[:id] == nil
-		return if not validate_id
-		
+		# TODO aggingere cotrollo sull'accesso e sui permessi
 		begin
 		    @user = User.find params[:id]
 		rescue ActiveRecord::RecordNotFound
@@ -62,11 +59,48 @@ class UsersController < ApplicationController
 	end
 	
 	def edit
-		# show the edit form
+		# TODO aggingere cotrollo sull'accesso e sui permessi
+		begin
+		    @user = User.find params[:id]
+		rescue ActiveRecord::RecordNotFound
+    		flash.now[:error] = "Utente non trovato"
+		end
+		
 	end
 	
 	def update
-		# update the user
+		# TODO aggiungere controllo sull'accesso e sui permessi
+	
+		if not params[:id]
+			puts "DDDDDDDDDDDDDDDDDDDD"
+			redirect_to edit_path
+			return
+		end
+		
+		p = params[:user]
+		user = User.find p[:id]
+		
+		if not user
+			flash.now[:error] = "Utente non trovato"
+			puts "CCCCCCCCCCCCCCCCCCC"
+			redirect_to edit_path
+			return
+		end
+		
+		# TODO aggiungere controlli!
+		user.name = p[:name] 		if p[:name]
+		user.surname = p[:surname] 	if p[:surname]
+		
+		unless user.save			
+			flash[:error] = "Impossibile salvare le informazioni"
+			puts "AAAAAAAAAAAAAA"
+			redirect_to_edit user
+			return
+		end
+		
+		flash[:info] = "Informazioni salvate"
+		puts "BBBBBBBBBBBBBBBBb"
+		redirect_to_edit user
 	end
 	
 	def new
@@ -89,10 +123,21 @@ class UsersController < ApplicationController
 	
 	# check if the id parameter is valid
 	def validate_id
+		params[:id] = session[:user_id] if params[:id] == nil
 		unless params[:id] && params[:id].to_i > 0
 			flash[:error] = "Identificativo non valido"
 			redirect_to root_path
 			return false
+		end
+		return true
+	end
+	
+	# redirect to the correct edit page
+	def redirect_to_edit user
+		if user.id == session[:user_id]
+			redirect_to own_edit_path
+		else
+			redirect_to edit_path(user.id)
 		end
 		return true
 	end

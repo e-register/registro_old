@@ -21,13 +21,12 @@ Rails.application.routes.draw do
 	post '/user/login' => 'users#login'
 	get '/user/logout' => 'users#logout', as: 'logout'
 	
-	get '/user/user/:id' => 'users#user'
-	get '/user/:id' => 'users#user'
-	get '/user' => 'users#user', as: 'user'
-	
-	get '/user/edit' => 'users#edit', as: 'edit'
+	get '/user/:id/edit' => 'users#edit', as: 'edit'
+	get '/user/edit' => 'users#edit', as: 'own_edit'
 	put '/user/edit' => 'users#update'
+	put '/user/:id/edit' => 'users#update'
 	patch '/user/edit' => 'users#update'
+	patch '/user/:id/edit' => 'users#update'
 	
 	get '/user/edit/:id' => 'users#edit'
 	put '/user/edit/:id' => 'users#update'
@@ -35,5 +34,10 @@ Rails.application.routes.draw do
 	
 	get '/user/new' => 'users#new', as: 'new_user'
 	post '/user/new' => 'users#create'
+
+	# last because /user/:id overrides the other options	
+	get '/user/user/:id' => 'users#user'
+	get '/user/:id' => 'users#user'
+	get '/user' => 'users#user', as: 'user'
 
 end
