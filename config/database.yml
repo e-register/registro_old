@@ -1,15 +1,36 @@
-default: &default
+sqlite: &sqlite
+  adapter: sqlite3
+  database: db/<%= Rails.env %>.sqlite3
+
+mysql: &mysql
   adapter: mysql2
-  encoding: utf8
-  username: travis  
+  username: travis
+  database: registro
+ 
+postgresql: &postgresql
+  adapter: postgresql
+  username: postgres
+  password:
+  database: myapp_<%= Rails.env %>
+  min_messages: ERROR
+
+home: &home
+  adapter: mysql2
+  username: root
+  password: password
+  database: registro
+
+default: &default
+  pool: 5
+  timeout: 5000
+  host: localhost
+  <<: *<%= ENV['DB'] || "home" %>
 
 development:
   <<: *default
-  database: registro
 
 test:
   <<: *default
-  database: registro_test
 
 production:
   <<: *default
