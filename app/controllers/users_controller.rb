@@ -51,8 +51,8 @@ class UsersController < ApplicationController
 	
 	def user
 	    # if the user asked /user/me replace the id with the user's one 
-		params[:id] = session[:user_id] unless params[:id]
-		validate_id
+		params[:id] = session[:user_id] if params[:id] == nil
+		return if not validate_id
 		
 		begin
 		    @user = User.find params[:id]
@@ -90,8 +90,10 @@ class UsersController < ApplicationController
 	# check if the id parameter is valid
 	def validate_id
 		unless params[:id] && params[:id].to_i > 0
-			flash.now[:error] = "Identificativo non valido"
+			flash[:error] = "Identificativo non valido"
 			redirect_to root_path
+			return false
 		end
+		return true
 	end
 end

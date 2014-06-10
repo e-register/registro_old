@@ -64,6 +64,36 @@ class UsersControllerTest < ActionController::TestCase
 	    user = Credential.check username: "edoardo", password: "password"
 	    get :user, nil, { :token => "a", :user_id => user.id }
 	    
+	    assert_nil flash.now[:error]
+	    assert_equal user, assigns(:user)
+	end
+	
+	test "get other user info" do
+		user = Credential.check username: "elia", password: "password"
+		edoardo = Credential.check username: "edoardo", password: "password"
+		get :user, { :id => user.id }, { :token => "a", :user_id => edoardo.id }
+		
+		assert_nil flash.now[:error]
+		assert_equal user, assigns(:user)
+	end
+	
+	test "get an user that non exists" do
+		edoardo = Credential.check username: "edoardo", password: "password"
+		
+		get :user, { :id => 1 }, { :token => "a", :user_id => edoardo.id }
+		
+		assert_equal "Utente non trovato", flash.now[:error]
+		assert_nil assigns(:user)
+	end
+	
+	test "get an invalid user id" do
+		edoardo = Credential.check username: "edoardo", password: "password"
+		
+		get :user, { :id => "aaaa" }, { :token => "a", :user_id => edoardo.id }
+		
+		assert_equal "Identificativo non valido", flash[:error]
+		assert_nil assigns(:user)
+		assert_redirected_to root_path
 	end
 	
 end
