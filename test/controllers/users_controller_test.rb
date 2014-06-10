@@ -96,4 +96,23 @@ class UsersControllerTest < ActionController::TestCase
 		assert_redirected_to root_path
 	end
 	
+	test "get the edit form for myself" do
+		edoardo = Credential.check username: "edoardo", password: "password"
+		
+		get :edit, nil, { :token => "a", :user_id => edoardo.id }
+		
+		assert_response :ok
+		assert_equal edoardo, assigns(:user)
+	end
+	
+	test "get the edit form for an other user" do
+		edoardo = Credential.check username: "edoardo", password: "password"
+		elia = Credential.check username: "elia", password: "password"
+		
+		get :edit, { :id => elia.id }, { :token => "a", :user_id => edoardo.id }
+		
+		assert_response :ok
+		assert_equal elia, assigns(:user)
+	end
+	
 end
