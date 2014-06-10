@@ -144,5 +144,47 @@ class UsersControllerTest < ActionController::TestCase
 		assert_response :bad_request
 	end
 	
+	test "update with a not existing user" do
+		edoardo = users(:user_edoardo)
+		
+		p = {
+			:id => 1,
+			:user => {}
+		}
+		
+		put :update, p, { :token => "a", :user_id => edoardo.id }
+		
+		assert_equal "Utente non trovato", flash.now[:error]
+		assert_redirected_to user_path
+	end
 	
+	test "update with an invalid user" do
+		edoardo = users(:user_edoardo)
+		
+		put :update, { :id => "aa" }, { :token => "a", :user_id => edoardo.id }
+		
+		assert_equal "Identificativo non valido", flash.now[:error]
+		assert_redirected_to root_path
+	end
+	
+	test "update with valida parameters" do
+		edoardo = users(:user_edoardo)
+		
+		p = {
+			id: edoardo.id,
+			user: {
+				name: "Nome",
+				surname: "Cognome"
+			}
+		}
+		
+		put :update, p, { :token => "a", :user_id => edoardo.id }
+		
+		edo2 = User.find edoardo.id
+		
+		assert_not_nil edo2
+		assert_equal "Nome", edo2.name
+		assert_equal "Cognome", edo2.surname
+		
+	end
 end

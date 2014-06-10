@@ -71,15 +71,15 @@ class UsersController < ApplicationController
 	def update
 		# TODO aggiungere controllo sull'accesso e sui permessi
 	
-		if not params[:user]			
+		if not params[:user]
 			render inline: "<h1>Bad Request</h1>", status: :bad_request
 			return
 		end
 		
 		p = params[:user]
-		user = User.find p[:id]
-		
-		if not user
+		begin
+			user = User.find params[:id]
+		rescue ActiveRecord::RecordNotFound
 			flash.now[:error] = "Utente non trovato"
 			redirect_to user_path
 			return
