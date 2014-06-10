@@ -167,7 +167,7 @@ class UsersControllerTest < ActionController::TestCase
 		assert_redirected_to root_path
 	end
 	
-	test "update with valida parameters" do
+	test "update with valid parameters" do
 		edoardo = users(:user_edoardo)
 		
 		p = {
@@ -186,5 +186,39 @@ class UsersControllerTest < ActionController::TestCase
 		assert_equal "Nome", edo2.name
 		assert_equal "Cognome", edo2.surname
 		
+	end
+	
+	test "update myself with invaid parameters" do
+		edoardo = users(:user_edoardo)
+		
+		p = {
+			id: edoardo.id,
+			user: {
+				name: "aa"*500,
+				surname: "bb"*500
+			}
+		}
+		
+		put :update, p, { :token => "a", :user_id => edoardo.id }
+		
+		assert_equal "Impossibile salvare le informazioni", flash[:error]
+		assert_redirected_to own_edit_path		
+	end
+	test "update with invaid parameters" do
+		elia = users(:user_elia)
+		edoardo = users(:user_edoardo)
+		
+		p = {
+			id: elia.id,
+			user: {
+				name: "aa"*500,
+				surname: "bb"*500
+			}
+		}
+		
+		put :update, p, { :token => "a", :user_id => edoardo.id }
+		
+		assert_equal "Impossibile salvare le informazioni", flash[:error]
+		assert_redirected_to edit_path elia
 	end
 end

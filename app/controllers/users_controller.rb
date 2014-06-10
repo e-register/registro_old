@@ -89,7 +89,13 @@ class UsersController < ApplicationController
 		user.name = p[:name] 		if p[:name]
 		user.surname = p[:surname] 	if p[:surname]
 		
-		unless user.save			
+		begin
+			status = user.save			
+		rescue
+			status = false
+		end
+		
+		if not status
 			flash[:error] = "Impossibile salvare le informazioni"
 			redirect_to_edit user
 			return
@@ -133,7 +139,7 @@ class UsersController < ApplicationController
 		if user.id == session[:user_id]
 			redirect_to own_edit_path
 		else
-			redirect_to edit_path(user.id)
+			redirect_to edit_path user
 		end
 		return true
 	end
