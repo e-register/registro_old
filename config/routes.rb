@@ -22,8 +22,8 @@ Rails.application.routes.draw do
 	get '/user/logout' => 'users#logout', as: 'logout'
 	
 	get '/user/user/:id' => 'users#user'
-	get '/user/:id' => 'users#user', as: 'user'
-	get '/user', to: redirect('/user/me')
+	get '/user/:id' => 'users#user'
+	get '/user' => 'users#user', as: 'user'
 	
 	get '/user/edit' => 'users#edit', as: 'edit'
 	put '/user/edit' => 'users#update'

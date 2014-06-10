@@ -20,14 +20,14 @@ class UsersController < ApplicationController
 				# check if they are correct
 				@user = Credential.check params[:login]
 				unless @user
-					flash[:error] = "Username/Password errati"
+					flash.now[:error] = "Username/Password errati"
 					LoginFail.bad_password request.remote_ip, params[:login]
 				else
 					# login the user and generate a new token
 					token = @user.get_new_token
 					session[:token] = token
 					session[:user_id] = @user.id
-					flash[:info] = "Login effettuato"
+					flash.now[:info] = "Login effettuato"
 					redirect_to root_path
 				end
 			else
@@ -44,13 +44,21 @@ class UsersController < ApplicationController
 		else
 			session[:token] = nil
 			session[:user_id] = nil
-			flash[:info] = "Utente disconnesso"
+			flash.now[:info] = "Utente disconnesso"
 			redirect_to login_path
 		end
 	end
 	
 	def user
-		params[:id] = session[:user_id] if params[:id] == "me"
+	    # if the user asked /user/me replace the id with the user's one 
+		params[:id] = session[:user_id] unless params[:id]
+		validate_id
+		
+		begin
+		    @user = User.find params[:id]
+		rescue ActiveRecord::RecordNotFound
+    		flash.now[:error] = "Utente non trovato"
+		end
 	end
 	
 	def edit
@@ -82,7 +90,7 @@ class UsersController < ApplicationController
 	# check if the id parameter is valid
 	def validate_id
 		unless params[:id] && params[:id].to_i > 0
-			flash[:error] = "Identificativo non valido"
+			flash.now[:error] = "Identificativo non valido"
 			redirect_to root_path
 		end
 	end
