@@ -2,9 +2,9 @@ require 'test_helper'
 
 class ClassInfoTest < ActiveSupport::TestCase
   test "All information correct for 3C" do
-    c = ClassInfo.where(name: "3C", specialization: "informatica").first
+    c = class_infos(:class_1)
     
-    admin = Credential.check(username: "prof", password: "password")
+    admin = users(:user_prof)
     
     assert_not_nil c
     

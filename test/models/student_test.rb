@@ -2,9 +2,10 @@ require 'test_helper'
 
 class StudentTest < ActiveSupport::TestCase
   test "Student edoardo valid" do
-    user = Credential.check username: "edoardo", password: "password"
-    classinfo = ClassInfo.where(name: "3C", specialization: "informatica").first
-    stud = Student.where(student: user).first
+    edoardo = users(:user_edoardo)
+    classinfo = class_infos(:class_1)
+    
+    stud = Student.where(student: edoardo).first
     
     assert_not_nil stud
     

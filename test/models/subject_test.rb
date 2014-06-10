@@ -2,11 +2,12 @@ require 'test_helper'
 
 class SubjectTest < ActiveSupport::TestCase
     test "All subject infos correct" do
-        s = Subject.where(name: "Matematica").first
+        s1 = subjects(:mate)
+        s2 = Subject.where(name: s1.name).first
         
-        assert_not_nil s
+        assert_not_nil s2
         
-        assert_equal "Matematica", s.name
-        assert_equal "Matematica", s.description
+        assert_equal s1.name, s2.name
+        assert_equal s1.description, s2.description
     end
 end

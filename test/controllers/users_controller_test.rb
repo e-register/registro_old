@@ -2,13 +2,13 @@ require 'test_helper'
 
 class UsersControllerTest < ActionController::TestCase
 	test "valid login" do		
-	    user = Credential.check username: "edoardo", password: "password"
+	    edoardo = users(:user_edoardo)
 	
 		post :login, { :login => { :username => "edoardo", :password => "password" } }
 		assert_not_nil assigns(:user)
 		assert_not_nil session[:token]
 		assert_not_nil session[:user_id]
-		assert_equal user.id, session[:user_id]
+		assert_equal edoardo.id, session[:user_id]
 		assert_equal "Login effettuato", flash.now[:info]
 		
 		assert_redirected_to root_path		
@@ -61,16 +61,18 @@ class UsersControllerTest < ActionController::TestCase
 	end
 	
 	test "get my user info" do
-	    user = Credential.check username: "edoardo", password: "password"
-	    get :user, nil, { :token => "a", :user_id => user.id }
+	    edoardo = users(:user_edoardo)
+	    
+	    get :user, nil, { :token => "a", :user_id => edoardo.id }
 	    
 	    assert_nil flash.now[:error]
-	    assert_equal user, assigns(:user)
+	    assert_equal edoardo, assigns(:user)
 	end
 	
 	test "get other user info" do
-		user = Credential.check username: "elia", password: "password"
-		edoardo = Credential.check username: "edoardo", password: "password"
+		user = users(:user_elia)
+		edoardo = users(:user_edoardo)
+		
 		get :user, { :id => user.id }, { :token => "a", :user_id => edoardo.id }
 		
 		assert_nil flash.now[:error]
@@ -78,7 +80,7 @@ class UsersControllerTest < ActionController::TestCase
 	end
 	
 	test "get an user that non exists" do
-		edoardo = Credential.check username: "edoardo", password: "password"
+		edoardo = users(:user_edoardo)
 		
 		get :user, { :id => 1 }, { :token => "a", :user_id => edoardo.id }
 		
@@ -87,7 +89,7 @@ class UsersControllerTest < ActionController::TestCase
 	end
 	
 	test "get an invalid user id" do
-		edoardo = Credential.check username: "edoardo", password: "password"
+		edoardo = users(:user_edoardo)
 		
 		get :user, { :id => "aaaa" }, { :token => "a", :user_id => edoardo.id }
 		
@@ -97,7 +99,7 @@ class UsersControllerTest < ActionController::TestCase
 	end
 	
 	test "get the edit form for myself" do
-		edoardo = Credential.check username: "edoardo", password: "password"
+		edoardo = users(:user_edoardo)
 		
 		get :edit, nil, { :token => "a", :user_id => edoardo.id }
 		
@@ -106,13 +108,41 @@ class UsersControllerTest < ActionController::TestCase
 	end
 	
 	test "get the edit form for an other user" do
-		edoardo = Credential.check username: "edoardo", password: "password"
-		elia = Credential.check username: "elia", password: "password"
+		edoardo = users(:user_edoardo)
+		elia = users(:user_elia)
 		
 		get :edit, { :id => elia.id }, { :token => "a", :user_id => edoardo.id }
 		
 		assert_response :ok
 		assert_equal elia, assigns(:user)
 	end
+	
+	test "get the edit form for a not existing user" do
+		edoardo = users(:user_edoardo)
+		
+		get :edit, { :id => 1 }, { :token => "a", :user_id => edoardo.id }
+		
+		assert_equal "Utente non trovato", flash.now[:error]
+		assert_nil assigns(:user)
+	end
+	
+	test "get the edit form for an invalid user" do
+		edoardo = users(:user_edoardo)
+		
+		get :edit, { :id => "aaa" }, { :token => "a", :user_id => edoardo.id }
+		
+		assert_equal "Identificativo non valido", flash.now[:error]
+		assert_nil assigns(:user)
+		assert_redirected_to root_path
+	end
+	
+	test "update without the user" do
+		edoardo = users(:user_edoardo)
+		
+		put :update, nil, { :token => "a", :user_id => edoardo.id }
+		
+		assert_response :bad_request
+	end
+	
 	
 end

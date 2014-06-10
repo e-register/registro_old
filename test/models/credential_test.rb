@@ -3,7 +3,7 @@ require 'test_helper'
 class CredentialTest < ActiveSupport::TestCase
 
   test "login as edoardo" do
-  	edoardo = User.where(name: "Edoardo", surname: "Morassutto").first
+  	edoardo = users(:user_edoardo)
   	
   	username = "edoardo"
   	password = "password"
@@ -13,7 +13,7 @@ class CredentialTest < ActiveSupport::TestCase
   end
   
   test "bad login as elia" do
-  	elia = User.where(name: "Elia", surname: "Morassutto").first
+  	elia = users(:user_elia)
   	
   	username = "elia"
   	password = "Password"

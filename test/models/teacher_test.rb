@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class TeacherTest < ActiveSupport::TestCase
+  # TODO modificare la JoinTable!
   test "All information correct for Teacher" do
     user = Credential.check username: "prof", password: "password"
     classinfo = ClassInfo.where(name: "3C", specialization: "informatica").first
