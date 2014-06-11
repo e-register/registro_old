@@ -1,4 +1,4 @@
 <% if @user %>
     <h1>Utente</h1>
-    <h2><%= @user.name + " " + @user.surname %></h2>
+    <h2><%= @user[:name] + " " + @user[:surname] %></h2>
 <% end %>

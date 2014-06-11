@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+	include UsersHelper
 	
 	before_filter :need_login, :only => [ :user, :edit, :update, :new, :create ]
 	before_filter :validate_id, :only => [ :user, :edit, :update ]
@@ -50,9 +51,11 @@ class UsersController < ApplicationController
 	end
 	
 	def user
-		# TODO aggingere cotrollo sull'accesso e sui permessi
 		begin
-		    @user = User.find params[:id]
+			me = User.find session[:user_id]
+			target = User.find params[:id]
+			
+		    @user = get_user_info me, target
 		rescue ActiveRecord::RecordNotFound
     		flash.now[:error] = "Utente non trovato"
 		end

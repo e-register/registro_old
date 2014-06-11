@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class UsersControllerTest < ActionController::TestCase
+	include UsersHelper
+
 	test "valid login" do		
 	    edoardo = users(:user_edoardo)
 	
@@ -65,8 +67,10 @@ class UsersControllerTest < ActionController::TestCase
 	    
 	    get :user, nil, { :token => "a", :user_id => edoardo.id }
 	    
+	    info = get_user_info edoardo, edoardo
+	    
 	    assert_nil flash.now[:error]
-	    assert_equal edoardo, assigns(:user)
+	    assert_equal info, assigns(:user)
 	end
 	
 	test "get other user info" do
@@ -75,8 +79,10 @@ class UsersControllerTest < ActionController::TestCase
 		
 		get :user, { :id => user.id }, { :token => "a", :user_id => edoardo.id }
 		
+		info = get_user_info edoardo, user
+		
 		assert_nil flash.now[:error]
-		assert_equal user, assigns(:user)
+		assert_equal info, assigns(:user)
 	end
 	
 	test "get an user that non exists" do

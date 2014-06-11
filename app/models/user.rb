@@ -28,5 +28,24 @@ class User < ActiveRecord::Base
 			return nil
 		end
 	end
-
+	
+	# extract the classes where the user is in
+	def classes
+		teach = Teacher.where(teacher: self).to_a.map{ |e| e.class_info }
+		stud = Student.where(student: self).to_a.map{ |e| e.class_info }
+		return teach.concat(stud).uniq
+	end
+	
+	# check if the user has a mutual class with an other user
+	def same_class? user
+		return (self.classes & user.classes).length > 0
+	end
+	
+	# extract the administrators of the classes where i'm in
+	def admins
+		c = self.classes
+		a = []
+		c.each { |class_info| a << class_info.admin }
+		return a.uniq
+	end
 end

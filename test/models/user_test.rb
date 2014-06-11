@@ -27,4 +27,28 @@ class UserTest < ActiveSupport::TestCase
 		assert_equal user, t.user
 		assert_equal token, t
 	end
+	
+	test "Get student classes" do
+		elia = users(:user_elia)
+		
+		c = elia.classes
+		
+		assert_equal [class_infos(:class_1)], c
+	end
+	
+	test "Get prof classes" do
+		prof = users(:user_prof)
+		
+		c = prof.classes
+		
+		assert_equal [class_infos(:class_1)], c
+	end
+	
+	test "Check mutual class" do
+		edoardo = users(:user_edoardo)
+		prof = users(:user_prof)
+		
+		assert edoardo.same_class? prof
+		assert prof.same_class? edoardo	
+	end
 end

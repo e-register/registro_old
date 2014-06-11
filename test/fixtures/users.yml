@@ -19,3 +19,10 @@ user_prof:
     born_city: Roma
     gender: <%= User.genders[:female] %>
     user_type: <%= User.user_types[:teacher] %>
+user_stranger:
+    name: Sconosciuto
+    surname: Al Mondo
+    born_date: 1970-01-01
+    born_city: Nowhere
+    gender: <%= User.genders[:male] %>
+    user_type: <%= User.user_types[:student] %>
