@@ -155,7 +155,7 @@ class UsersControllerTest < ActionController::TestCase
 		put :update, p, { :token => "a", :user_id => edoardo.id }
 		
 		assert_equal "Utente non trovato", flash.now[:error]
-		assert_redirected_to user_path
+		assert_redirected_to me_path
 	end
 	
 	test "update with an invalid user" do
@@ -234,5 +234,35 @@ class UsersControllerTest < ActionController::TestCase
 	    get :new, nil, { :token => "a", :user_id => edoardo.id }
 	    
 	    assert_response :ok
+	end
+	
+	test "create without the parameters" do
+	    edoardo = users(:user_edoardo)
+	    
+	    post :create, {}, { :token => "a", :user_id => edoardo.id }
+	    
+	    assert_response :bad_request
+	end
+	
+	test "create without only one parameter" do
+	    edoardo = users(:user_edoardo)
+	    
+	    params = [ 'username', 'password', 'name', 'surname' ]
+	    
+	    params.each do |missing|
+	        malformed = {}
+	        params.each do |p|	        
+	            malformed.merge!("#{p}" => rand(36**10).to_s(36)) if p != missing
+	        end
+	    
+	        p = {
+	            :user => malformed
+	        }
+	        
+	        post :create, p, { :token => "a", :user_id => edoardo.id }
+	        
+	        assert_response :bad_request
+	        assert_equal "Parametro #{missing} non specificato", flash.now[:error]
+	    end
 	end
 end

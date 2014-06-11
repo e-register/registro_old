@@ -37,7 +37,7 @@ Rails.application.routes.draw do
 
 	# last because /user/:id overrides the other options	
 	get '/user/user/:id' => 'users#user'
-	get '/user/:id' => 'users#user'
-	get '/user' => 'users#user', as: 'user'
+	get '/user/:id' => 'users#user', as: 'user'
+	get '/user' => 'users#user', as: 'me'
 
 end

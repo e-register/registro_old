@@ -81,7 +81,7 @@ class UsersController < ApplicationController
 			user = User.find params[:id]
 		rescue ActiveRecord::RecordNotFound
 			flash.now[:error] = "Utente non trovato"
-			redirect_to user_path
+			redirect_to me_path
 			return
 		end
 		
@@ -110,7 +110,40 @@ class UsersController < ApplicationController
 	end
 	
 	def create
-		# create the user & redirect
+		if not params[:user]
+		    render inline: "<h1>Bad Request</h1>", status: :bad_request
+			return
+		end
+		
+		p = params[:user]
+		
+		# check if all required params are present
+		required_params = [ 'username', 'password', 'name', 'surname' ]
+		required_params.each do |key|
+		    if not p[key]
+		        flash.now[:error] = "Parametro #{key} non specificato"
+		        render inline: "<h1>Bad Request</h1>", status: :bad_request
+			    return
+		    end
+		end
+		
+		begin
+		    user = User.new
+		    user.name = p[:name]
+		    user.surname = p[:surname]
+		    user.save
+		    
+		    credential = Credential.new
+		    credential.username = p[:username]
+		    credential.password = PasswordHash.createHash p[:password]
+		    credential.user = user
+		    credential.save
+		rescue
+		    flash.now[:error] = "Impossibile creare l'utente"
+		    redirect_to root_path
+		end
+		
+		redirect_to user_path user
 	end
 	
 	# ==================
