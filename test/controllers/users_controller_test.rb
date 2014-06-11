@@ -265,4 +265,45 @@ class UsersControllerTest < ActionController::TestCase
 	        assert_equal "Parametro #{missing} non specificato", flash.now[:error]
 	    end
 	end
+	
+	test "create user with error" do
+	    edoardo = users(:user_edoardo)
+	    
+	    p = {
+	        :user => {
+	            :name => rand(36**1000).to_s(36),
+	            :surname => rand(36**1000).to_s(36),
+	            :username => rand(36**1000).to_s(36),
+	            :password => rand(36**1000).to_s(36)
+	        }
+	    }
+	    
+	    post :create, p, { :token => "a", :user_id => edoardo.id }
+	    
+	    assert_redirected_to root_path
+	    assert_equal "Impossibile creare l'utente", flash.now[:error]
+	    
+	end
+	
+	test "create user normally" do
+	    edoardo = users(:user_edoardo)
+	    
+	    p = {
+	        :user => {
+	            :name => rand(36**10).to_s(36),
+	            :surname => rand(36**10).to_s(36),
+	            :username => rand(36**10).to_s(36),
+	            :password => rand(36**10).to_s(36)
+	        }
+	    }
+	    
+	    post :create, p, { :token => "a", :user_id => edoardo.id }
+	    
+	    user = Credential.check username: p[:user][:username], password: p[:user][:password]
+	    
+	    assert_not_nil user
+	    assert_equal p[:user][:name], user.name
+	    assert_equal p[:user][:surname], user.surname
+	    
+	end
 end

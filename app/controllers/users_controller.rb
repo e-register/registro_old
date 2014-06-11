@@ -127,6 +127,8 @@ class UsersController < ApplicationController
 		    end
 		end
 		
+		user = nil
+		
 		begin
 		    user = User.new
 		    user.name = p[:name]
@@ -138,12 +140,11 @@ class UsersController < ApplicationController
 		    credential.password = PasswordHash.createHash p[:password]
 		    credential.user = user
 		    credential.save
+		    redirect_to user_path user
 		rescue
 		    flash.now[:error] = "Impossibile creare l'utente"
 		    redirect_to root_path
 		end
-		
-		redirect_to user_path user
 	end
 	
 	# ==================
