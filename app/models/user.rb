@@ -10,6 +10,11 @@ class User < ActiveRecord::Base
 	# a user can have more token
 	has_many :tokens
 
+	# validates the parameters
+	validate :name, presence: true, lenght: { in: 1..50 }
+	validate :surname, presence: true, lenght: { in: 1..50 }
+	# TODO aggiungere i parametri rimanenti
+
 	# generate a new token for the user
 	# Return the Token if success, otherwise nil
 	def get_new_token

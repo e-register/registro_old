@@ -5,6 +5,10 @@ class Credential < ActiveRecord::Base
 	# a credential is associated with only one user
 	belongs_to :user
 	
+	validate :username, presence: true, uniqueness: true
+	validate :password, presence: true, confirmation: true
+	validate :user_id, presence: true
+	
 	# check if the username and the password are valid
 	# return a User if the login is correct, nil otherwise
 	def self.check options = {}
@@ -20,5 +24,11 @@ class Credential < ActiveRecord::Base
 				return nil
 			end
 		end
+	end
+	
+	def self.create options = {}
+		c = Credential.new options
+		c.password = PasswordHash.createHash options[:password]
+		c.save!
 	end
 end

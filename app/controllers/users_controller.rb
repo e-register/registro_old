@@ -106,10 +106,11 @@ class UsersController < ApplicationController
 	end
 	
 	def new
-		# show the new-user-form
+		# TODO aggiungere controllo dei permessi
 	end
 	
 	def create
+		# TODO aggiungere controllo dei permessi
 		if not params[:user]
 		    render inline: "<h1>Bad Request</h1>", status: :bad_request
 			return
@@ -125,33 +126,24 @@ class UsersController < ApplicationController
 		        render inline: "<h1>Bad Request</h1>", status: :bad_request
 			    return
 		    end
-		end
+		end		
 		
 		user = nil
 		
 		begin
-		    user = User.new
-		    user.name = p[:name]
-		    user.surname = p[:surname]
-		    user.save
-		    
-		    credential = Credential.new
-		    credential.username = p[:username]
-		    credential.password = PasswordHash.createHash p[:password]
-		    credential.user = user
-		    credential.save
+		    user = 			User.create create_user_params 		    
+		    credential = 	Credential.create create_credential_params(user)
 		    redirect_to user_path user
-		rescue
-		    flash.now[:error] = "Impossibile creare l'utente"
+		rescue Exception => e
+		    flash[:error] = "Impossibile creare l'utente"		    
 		    redirect_to root_path
 		end
 	end
 	
 	# ==================
-	#     PROTECTED
+	     protected
 	# ==================
-	protected
-	
+		
 	# check if the user is logged in
 	def need_login
 		redirect_to login_path unless session[:token]
@@ -176,5 +168,22 @@ class UsersController < ApplicationController
 			redirect_to edit_path user
 		end
 		return true
+	end
+	
+	
+	# ==============
+	     private
+	# ==============
+	
+	def create_user_params params = params
+		params = { name: params[:user][:name], surname: params[:user][:surname] }
+	end
+	
+	def create_credential_params user, params = params
+		params = { 
+			username: params[:user][:username], 
+			password: params[:user][:password],
+			user_id: user.id
+		}
 	end
 end

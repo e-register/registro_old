@@ -284,7 +284,7 @@ class UsersControllerTest < ActionController::TestCase
 	    post :create, p, { :token => "a", :user_id => edoardo.id }
 	    
 	    assert_redirected_to root_path
-	    assert_equal "Impossibile creare l'utente", flash.now[:error]
+	    assert_equal "Impossibile creare l'utente", flash[:error]
 	    
 	end
 	
@@ -299,12 +299,15 @@ class UsersControllerTest < ActionController::TestCase
 	            :password => rand(36**10).to_s(36)
 	        }
 	    }
+	    #p[:user][:password_confirmation] = p[:user][:password]
 	    
 	    post :create, p, { :token => "a", :user_id => edoardo.id }
 	    
 	    user = Credential.check username: p[:user][:username], password: p[:user][:password]
 	    
+	    assert_nil flash[:error]
 	    assert_not_nil user
+	    assert_redirected_to user_path user
 	    assert_equal p[:user][:name], user.name
 	    assert_equal p[:user][:surname], user.surname
 	    

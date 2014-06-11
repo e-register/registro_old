@@ -1,8 +1,8 @@
 class Base < ActiveRecord::Migration
   def change
   	create_table :users, force: true do |t|
-  		t.string  :name
-  		t.string  :surname
+  		t.string  :name, limit: 50
+  		t.string  :surname, limit: 50
   		t.date    :born_date
   		t.string  :born_city
   		t.integer :gender
