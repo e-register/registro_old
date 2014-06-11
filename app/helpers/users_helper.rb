@@ -15,6 +15,11 @@ module UsersHelper
 		user_type: ACCESS_ANYONE,
 		classes: ACCESS_ADMIN | ACCESS_COORD | ACCESS_TEACH | ACCESS_STUD | ACCESS_MYSELF
 	}
+	EDIT_TABLE = {
+		name: ACCESS_ADMIN | ACCESS_COORD,
+		surname: ACCESS_ADMIN | ACCESS_COORD,
+		user_type: ACCESS_ADMIN		
+	}
 	
 	# get the accessible information about an user
 	def get_user_info me, target
@@ -27,6 +32,17 @@ module UsersHelper
 		response[:surname] = target.surname		if level & table[:surname] > 0
 		response[:user_type] = target.user_type	if level & table[:user_type] > 0
 		response[:classes] = target.classes		if level & table[:classes] > 0
+		
+		return response
+	end
+	
+	# get the editable information about target by me
+	def get_edit_info me, target
+		level = get_user_level me, target
+		table = EDIT_TABLE
+		
+		response = []		
+		table.each { |p,l| response << p if level & l > 0 }
 		
 		return response
 	end

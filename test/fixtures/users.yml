@@ -26,3 +26,7 @@ user_stranger:
     born_city: Nowhere
     gender: <%= User.genders[:male] %>
     user_type: <%= User.user_types[:student] %>
+user_admin:
+    name: Administrator
+    surname: 
+    user_type: <%= User.user_types[:admin] %>
