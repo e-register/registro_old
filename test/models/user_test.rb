@@ -51,4 +51,13 @@ class UserTest < ActiveSupport::TestCase
 		assert edoardo.same_class? prof
 		assert prof.same_class? edoardo	
 	end
+	
+	test "Check admin class" do
+		edoardo = users(:user_edoardo)
+		prof = users(:user_prof)
+		
+		a = edoardo.admins
+		
+		assert_equal [prof], a
+	end
 end
