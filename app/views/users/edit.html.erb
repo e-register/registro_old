@@ -1,8 +1,17 @@
-<% if @user %>
+<% if @user && @access.length > 0 %>
 	<%= form_for :update, method: "put" do |f| %>
 		<%= hidden_field :user, :id %>
-		Nome: <%= text_field :user, :name, class: "form-control" %> <br>
-		Cognome: <%= text_field :user, :surname, class: "form-control" %> <br>
+		
+		<% if @access.include? :name %>
+			Nome: <%= text_field :user, :name, class: "form-control" %> <br>
+		<% end %>
+		
+		<% if @access.include? :surname %>
+			Cognome: <%= text_field :user, :surname, class: "form-control" %> <br>
+		<% end %>
+		
 		<%= f.submit "Aggiorna", class: [ "btn", "btn-success" ] %>
 	<% end %>
+<% else %>
+	<h2>Informazioni non modificabili<h2>
 <% end %>

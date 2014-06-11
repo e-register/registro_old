@@ -86,8 +86,8 @@ ActiveRecord::Schema.define(version: 20140609165911) do
   add_index "tokens", ["token"], name: "index_tokens_on_token", unique: true, using: :btree
 
   create_table "users", force: true do |t|
-    t.string  "name"
-    t.string  "surname"
+    t.string  "name",      limit: 50
+    t.string  "surname",   limit: 50
     t.date    "born_date"
     t.string  "born_city"
     t.integer "gender"

@@ -62,8 +62,11 @@ class UsersController < ApplicationController
 	end
 	
 	def edit
-		# TODO aggingere cotrollo sull'accesso e sui permessi
 		begin
+			me = User.find session[:user_id]
+			target = User.find params[:id]
+			
+			@access = get_edit_info me, target
 		    @user = User.find params[:id]
 		rescue ActiveRecord::RecordNotFound
     		flash.now[:error] = "Utente non trovato"
