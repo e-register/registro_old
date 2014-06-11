@@ -1,8 +1,8 @@
 <%= form_for :create do |f| %>
-    Username: <%= f.text_field :username, class: "form-control" %><br>
-    Password: <%= f.password_field :password, class: "form-control" %><br>
-    Conferma password: <%= f.password_field :password_confirmation, class: "form-control" %><br>
-    Nome: <%= f.text_field :name, class: "form-control" %><br>
-    Cognome: <%= f.text_field :surname, class: "form-control" %><br>
+    Username: <%= text_field :user, :username, class: "form-control" %><br>
+    Password: <%= password_field :user, :password, class: "form-control" %><br>
+    Conferma password: <%= password_field :user, :password_confirmation, class: "form-control" %><br>
+    Nome: <%= text_field :user, :name, class: "form-control" %><br>
+    Cognome: <%= text_field :user, :surname, class: "form-control" %><br>
     <%= f.submit "Crea", class: [ "btn", "btn-success" ] %>
 <% end %>

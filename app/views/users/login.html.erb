@@ -1,6 +1,6 @@
 <div class="col-md-4 col-md-offset-4" id="login-area">
 	<div class="panel panel-success">
-	<%= form_for :login do f %>
+	<%= form_for :login do |f| %>
 		Username: <%= f.text_field :username, class: "form-control" %> <br>
 		Password: <%= f.password_field :password, class: "form-control" %> <br>
 		<%= f.submit "Accedi", class: [ "btn", "btn-success" ] %>

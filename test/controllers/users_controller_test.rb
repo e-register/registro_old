@@ -227,4 +227,12 @@ class UsersControllerTest < ActionController::TestCase
 		assert_equal "Impossibile salvare le informazioni", flash[:error]
 		assert_redirected_to edit_path elia
 	end
+	
+	test "get the new user form" do
+	    edoardo = users(:user_edoardo)
+	    
+	    get :new, nil, { :token => "a", :user_id => edoardo.id }
+	    
+	    assert_response :ok
+	end
 end
