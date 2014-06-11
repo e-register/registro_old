@@ -33,4 +33,26 @@ class UsersHelperTest < ActionView::TestCase
 		assert_equal aspected, r
 	end
 	
+	test "Edit valid info" do
+		admin = users(:user_admin)
+		edoardo = users(:user_edoardo)
+		
+		r = get_edit_info admin, edoardo
+		
+		aspected = [ :name, :surname, :user_type ]
+		
+		assert_equal aspected, r
+	end
+	
+	test "Edit not valid info" do
+		elia = users(:user_elia)
+		edoardo = users(:user_edoardo)
+		
+		r = get_edit_info elia, edoardo
+		
+		aspected = []
+		
+		assert_equal aspected, r
+	end
+	
 end
