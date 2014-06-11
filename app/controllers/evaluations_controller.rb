@@ -13,7 +13,9 @@ class EvaluationsController < ApplicationController
 			validate_id
 		# if the id wasn't passed, render the index page
 		else
+			index
 			render :index
+			return
 		end
 		begin
 			@evaluation = Evaluation.find(params[:id])
