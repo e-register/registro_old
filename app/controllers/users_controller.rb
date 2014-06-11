@@ -106,7 +106,6 @@ class UsersController < ApplicationController
 			else
 				flash[:error] = "Accesso negato"
 				redirect_to me_path
-				puts "#{params} #{access}"
 				return
 			end
 		end
