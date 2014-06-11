@@ -267,6 +267,9 @@ class UsersControllerTest < ActionController::TestCase
 	end
 	
 	test "create user with error" do
+    	# skip this test on sqlite
+		skip if ENV["DB"] == 'sqlite'
+		
 	    edoardo = users(:user_edoardo)
 	    
 	    p = {
