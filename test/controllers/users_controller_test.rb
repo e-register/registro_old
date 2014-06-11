@@ -233,7 +233,25 @@ class UsersControllerTest < ActionController::TestCase
 		assert_redirected_to own_edit_path
 	end
 	
-	test "update with valid parameters authorized" do
+	test "update with more parameters authorized" do	
+		admin = users(:user_admin)
+		
+		p = {
+			id: admin.id,
+			user: {
+				name: "aa",
+				surname: "bb",
+				aaaa: "ccc"
+			}
+		}
+		
+		put :update, p, { :token => "a", :user_id => admin.id }
+		
+		assert_redirected_to me_path
+		assert_equal "Accesso negato", flash[:error]
+	end
+	
+	test "update myself with valid parameters authorized" do
 		admin = users(:user_admin)
 		
 		p = {
@@ -252,6 +270,28 @@ class UsersControllerTest < ActionController::TestCase
 		
 		assert_equal "aa", admin2.name
 		assert_equal "bb", admin2.surname
+	end
+	
+	test "update an other user with valid parameters authorized" do
+		admin = users(:user_admin)
+		edoardo = users(:user_edoardo)
+		
+		p = {
+			id: edoardo.id,
+			user: {
+				name: "aa",
+				surname: "bb"
+			}
+		}
+		
+		put :update, p, { :token => "a", :user_id => admin.id }
+		
+		assert_nil flash[:error]
+				
+		edoardo2 = User.find edoardo.id
+		
+		assert_equal "aa", edoardo2.name
+		assert_equal "bb", edoardo2.surname
 	end
 	
 	test "get the new user form" do

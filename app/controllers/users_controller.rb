@@ -83,7 +83,7 @@ class UsersController < ApplicationController
 		# get the affected user
 		p = params[:user]
 		begin
-			me = User.find params[:id]
+			me = User.find session[:user_id]
 			user = User.find params[:id]
 		rescue ActiveRecord::RecordNotFound
 			flash.now[:error] = "Utente non trovato"
@@ -106,23 +106,14 @@ class UsersController < ApplicationController
 			else
 				flash[:error] = "Accesso negato"
 				redirect_to me_path
+				puts "#{params} #{access}"
 				return
 			end
 		end
 		
-		# execute the update
-		begin
-			status = user.save!
-		rescue
-			status = false
-		end
-		
-		if not status
-			flash[:error] = "Impossibile salvare le informazioni"
-			redirect_to_edit user
-			return
-		end
-		
+		# execute the update (this should not fail...)
+		user.save!
+				
 		flash[:info] = "Informazioni salvate"
 		redirect_to_edit user
 	end
