@@ -75,15 +75,15 @@ class UsersController < ApplicationController
 	end
 	
 	def update
-		# TODO aggiungere controllo sull'accesso e sui permessi
-	
 		if not params[:user]
 			render inline: "<h1>Bad Request</h1>", status: :bad_request
 			return
 		end
 		
+		# get the affected user
 		p = params[:user]
 		begin
+			me = User.find params[:id]
 			user = User.find params[:id]
 		rescue ActiveRecord::RecordNotFound
 			flash.now[:error] = "Utente non trovato"
@@ -91,12 +91,28 @@ class UsersController < ApplicationController
 			return
 		end
 		
-		# TODO aggiungere controlli!
-		user.name = p[:name] 		if p[:name]
-		user.surname = p[:surname] 	if p[:surname]
+		access = get_edit_info me, user
 		
+		# do the update
+		p.each do |param, value|
+			if access.include? param.to_sym
+				begin
+					user.update_attribute(param, value)
+				rescue
+					flash[:error] = "Impossibile salvare le informazioni"
+					redirect_to_edit user
+					return
+				end
+			else
+				flash[:error] = "Accesso negato"
+				redirect_to me_path
+				return
+			end
+		end
+		
+		# execute the update
 		begin
-			status = user.save			
+			status = user.save!
 		rescue
 			status = false
 		end

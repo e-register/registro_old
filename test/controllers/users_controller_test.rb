@@ -173,7 +173,7 @@ class UsersControllerTest < ActionController::TestCase
 		assert_redirected_to root_path
 	end
 	
-	test "update with valid parameters" do
+	test "update with valid parameters but unauthorized" do
 		edoardo = users(:user_edoardo)
 		
 		p = {
@@ -186,34 +186,12 @@ class UsersControllerTest < ActionController::TestCase
 		
 		put :update, p, { :token => "a", :user_id => edoardo.id }
 		
-		edo2 = User.find edoardo.id
-		
-		assert_not_nil edo2
-		assert_equal "Nome", edo2.name
-		assert_equal "Cognome", edo2.surname
+		assert_redirected_to me_path
+		assert_equal "Accesso negato", flash[:error]
 		
 	end
 	
-	test "update myself with invaid parameters" do
-		# skip this test on sqlite
-		skip if ENV["DB"] == 'sqlite'
-	
-		edoardo = users(:user_edoardo)
-		
-		p = {
-			id: edoardo.id,
-			user: {
-				name: "aa"*500,
-				surname: "bb"*500
-			}
-		}
-		
-		put :update, p, { :token => "a", :user_id => edoardo.id }
-		
-		assert_equal "Impossibile salvare le informazioni", flash[:error]
-		assert_redirected_to own_edit_path		
-	end
-	test "update with invaid parameters" do
+	test "update with invaid parameters and unauthorized" do
 		# skip this test on sqlite
 		skip if ENV["DB"] == 'sqlite'
 	
@@ -230,8 +208,50 @@ class UsersControllerTest < ActionController::TestCase
 		
 		put :update, p, { :token => "a", :user_id => edoardo.id }
 		
+		assert_redirected_to me_path
+		assert_equal "Accesso negato", flash[:error]
+		
+	end
+	
+	test "update with invlid parameters authorized" do
+		# skip this test on sqlite
+		skip if ENV["DB"] == 'sqlite'
+	
+		admin = users(:user_admin)
+		
+		p = {
+			id: admin.id,
+			user: {
+				name: "aa"*500,
+				surname: "bb"*500
+			}
+		}
+		
+		put :update, p, { :token => "a", :user_id => admin.id }
+		
 		assert_equal "Impossibile salvare le informazioni", flash[:error]
-		assert_redirected_to edit_path elia
+		assert_redirected_to own_edit_path
+	end
+	
+	test "update with valid parameters authorized" do
+		admin = users(:user_admin)
+		
+		p = {
+			id: admin.id,
+			user: {
+				name: "aa",
+				surname: "bb"
+			}
+		}
+		
+		put :update, p, { :token => "a", :user_id => admin.id }
+		
+		assert_nil flash[:error]
+		
+		admin2 = User.find admin.id
+		
+		assert_equal "aa", admin2.name
+		assert_equal "bb", admin2.surname
 	end
 	
 	test "get the new user form" do
@@ -305,7 +325,6 @@ class UsersControllerTest < ActionController::TestCase
 	            :password => rand(36**10).to_s(36)
 	        }
 	    }
-	    #p[:user][:password_confirmation] = p[:user][:password]
 	    
 	    post :create, p, { :token => "a", :user_id => edoardo.id }
 	    
