@@ -1,0 +1,14 @@
+<% if session[:token] %>
+	<span class="navbar-text navbar-right">
+		Benvenuto
+		<% user = User.find session[:user_id] %>		
+		<%= link_to "#{user.name} #{user.surname}", me_path %>
+	</span>
+	<%= link_to "Logout", logout_path, class: [ "btn", "btn-warning", "navbar-right", "navbar-btn" ] %>
+<% elsif params[:controller] != "user" && params[:action] != "login" %>
+	<%= form_tag :login, class: [ "form-inline", "navbar-form", "navbar-right" ] do  %>
+		<%= text_field :login, :username, :class => [ "form-control", "input-sm" ], placeholder: "Username" %>
+		<%= password_field :login, :password, :class => [ "form-control", "input-sm" ], placeholder: "Password" %>
+		<%= button_tag "Accedi", type: :submit, class: [ "btn", "btn-success" ] %>
+	<% end %>
+<% end %>
