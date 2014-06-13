@@ -209,10 +209,13 @@ class UsersController < ApplicationController
 	end
 	
 	def create_credential_params user, params = params
-		params = { 
+		p = { 
 			username: params[:user][:username], 
 			password: params[:user][:password],
 			user_id: user.id
-		}
+		}		
+		# if the password confirmation is preset, validate it!
+		p[:password_confirmation] = params[:user][:password_confirmation] if params[:user][:password_confirmation]
+		return p
 	end
 end

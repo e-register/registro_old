@@ -4,5 +4,7 @@
     Conferma password: <%= password_field :user, :password_confirmation, class: "form-control" %><br>
     Nome: <%= text_field :user, :name, class: "form-control" %><br>
     Cognome: <%= text_field :user, :surname, class: "form-control" %><br>
+    Data di nascita: <%= date_field :user, :born_date, class: "form-control" %><br>
+    Comune di nascita: <%= text_field :user, :born_city, class: "form-control" %><br>
     <%= f.submit "Crea", class: [ "btn", "btn-success" ] %>
 <% end %>

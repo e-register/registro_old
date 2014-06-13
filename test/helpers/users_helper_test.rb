@@ -29,11 +29,7 @@ class UsersHelperTest < ActionView::TestCase
 		
 		r = get_user_info edoardo, stranger
 		
-		aspected = {
-			name: stranger.name,
-			surname: stranger.surname,
-			user_type: stranger.user_type
-		}
+		aspected = {}
 		
 		assert_not_nil r
 		
@@ -46,7 +42,7 @@ class UsersHelperTest < ActionView::TestCase
 		
 		r = get_edit_info admin, edoardo
 		
-		aspected = [ :name, :surname, :user_type ]
+		aspected = [ :name, :surname, :born_date, :born_city, :gender, :user_type ]
 		
 		assert_equal aspected, r
 	end
