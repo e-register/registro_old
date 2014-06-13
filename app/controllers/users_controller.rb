@@ -130,6 +130,16 @@ class UsersController < ApplicationController
 	end
 	
 	def create
+		me = User.find session[:user_id]
+		access = get_new_info me
+		
+		# check if the user can create a user
+		if not access[:create]
+			redirect_to root_path
+			flash[:error] = "Accesso negato"
+			return
+		end
+		
 		if not params[:user]
 		    render inline: "<h1>Bad Request</h1>", status: :bad_request
 			return
@@ -145,7 +155,7 @@ class UsersController < ApplicationController
 		        render inline: "<h1>Bad Request</h1>", status: :bad_request
 			    return
 		    end
-		end		
+		end
 		
 		user = nil
 		

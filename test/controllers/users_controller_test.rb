@@ -312,29 +312,29 @@ class UsersControllerTest < ActionController::TestCase
 	end
 	
 	test "create without the parameters" do
-	    edoardo = users(:user_edoardo)
+	    admin = users(:user_admin)
 	    
-	    post :create, {}, { :token => "a", :user_id => edoardo.id }
+	    post :create, {}, { :token => "a", :user_id => admin.id }
 	    
 	    assert_response :bad_request
 	end
 	
 	test "create without only one parameter" do
-	    edoardo = users(:user_edoardo)
+	    admin = users(:user_admin)
 	    
 	    params = [ 'username', 'password', 'name', 'surname' ]
 	    
 	    params.each do |missing|
 	        malformed = {}
-	        params.each do |p|	        
-	            malformed.merge!("#{p}" => rand(36**10).to_s(36)) if p != missing
+	        params.each do |p|
+	            malformed[p] = rand(36**10).to_s(36) if p != missing
 	        end
 	    
 	        p = {
 	            :user => malformed
 	        }
 	        
-	        post :create, p, { :token => "a", :user_id => edoardo.id }
+	        post :create, p, { :token => "a", :user_id => admin.id }
 	        
 	        assert_response :bad_request
 	        assert_equal "Parametro #{missing} non specificato", flash.now[:error]
@@ -345,7 +345,7 @@ class UsersControllerTest < ActionController::TestCase
     	# skip this test on sqlite
 		skip if ENV["DB"] == 'sqlite'
 		
-	    edoardo = users(:user_edoardo)
+	    admin = users(:user_admin)
 	    
 	    p = {
 	        :user => {
@@ -356,15 +356,15 @@ class UsersControllerTest < ActionController::TestCase
 	        }
 	    }
 	    
-	    post :create, p, { :token => "a", :user_id => edoardo.id }
+	    post :create, p, { :token => "a", :user_id => admin.id }
 	    
 	    assert_redirected_to root_path
 	    assert_equal "Impossibile creare l'utente", flash[:error]
 	    
 	end
 	
-	test "create user normally" do
-	    edoardo = users(:user_edoardo)
+	test "create user unauthorized" do
+		edoardo = users(:user_edoardo)
 	    
 	    p = {
 	        :user => {
@@ -376,6 +376,24 @@ class UsersControllerTest < ActionController::TestCase
 	    }
 	    
 	    post :create, p, { :token => "a", :user_id => edoardo.id }
+	    
+	    assert_redirected_to root_path
+	    assert_equal "Accesso negato", flash[:error]
+	end
+	
+	test "create user authorized" do
+	    admin = users(:user_admin)
+	    
+	    p = {
+	        :user => {
+	            :name => rand(36**10).to_s(36),
+	            :surname => rand(36**10).to_s(36),
+	            :username => rand(36**10).to_s(36),
+	            :password => rand(36**10).to_s(36)
+	        }
+	    }
+	    
+	    post :create, p, { :token => "a", :user_id => admin.id }
 	    
 	    user = Credential.check username: p[:user][:username], password: p[:user][:password]
 	    
