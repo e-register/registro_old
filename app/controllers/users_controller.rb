@@ -160,12 +160,16 @@ class UsersController < ApplicationController
 		user = nil
 		
 		begin
-		    user = 			User.create create_user_params 		    
-		    credential = 	Credential.create create_credential_params(user)
+			User.transaction do
+				Credential.transaction do				
+					user = User.create create_user_params
+		    		credential = Credential.create create_credential_params user
+		    	end
+		    end
 		    redirect_to user_path user
 		rescue Exception => e
-		    flash[:error] = "Impossibile creare l'utente"		    
-		    redirect_to root_path
+		    flash[:error] = "Impossibile creare l'utente"
+		    redirect_to new_user_path
 		end
 	end
 	
@@ -205,7 +209,15 @@ class UsersController < ApplicationController
 	# ==============
 	
 	def create_user_params params = params
-		params = { name: params[:user][:name], surname: params[:user][:surname] }
+		p = params[:user]
+		return {
+			name: p[:name],
+			surname: p[:surname],
+			born_date: p[:born_date],
+			born_city: p[:born_city],
+			gender: p[:gender],
+			user_type: p[:user_type]
+		}
 	end
 	
 	def create_credential_params user, params = params
@@ -213,9 +225,10 @@ class UsersController < ApplicationController
 			username: params[:user][:username], 
 			password: params[:user][:password],
 			user_id: user.id
-		}		
-		# if the password confirmation is preset, validate it!
-		p[:password_confirmation] = params[:user][:password_confirmation] if params[:user][:password_confirmation]
+		}
+		if params[:user][:password_confirmation] && params[:user][:password_confirmation] != params[:user][:password]
+			raise 'Password mismatch'
+		end
 		return p
 	end
 end

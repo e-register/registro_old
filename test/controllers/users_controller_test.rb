@@ -358,7 +358,7 @@ class UsersControllerTest < ActionController::TestCase
 	    
 	    post :create, p, { :token => "a", :user_id => admin.id }
 	    
-	    assert_redirected_to root_path
+	    assert_redirected_to new_user_path
 	    assert_equal "Impossibile creare l'utente", flash[:error]
 	    
 	end
@@ -402,5 +402,23 @@ class UsersControllerTest < ActionController::TestCase
 	    assert_redirected_to user_path user
 	    assert_equal p[:user][:name], user.name
 	    assert_equal p[:user][:surname], user.surname	    
+	end
+	
+	test "Create user authorized but already existing" do
+		admin = users(:user_admin)
+	    
+	    p = {
+	        :user => {
+	            :name => rand(36**10).to_s(36),
+	            :surname => rand(36**10).to_s(36),
+	            :username => "edoardo",
+	            :password => rand(36**10).to_s(36)
+	        }
+	    }
+	    
+	    post :create, p, { :token => "a", :user_id => admin.id }
+	    
+	    assert_redirected_to new_user_path
+	    assert_equal "Impossibile creare l'utente", flash[:error]
 	end
 end

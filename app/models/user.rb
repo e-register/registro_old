@@ -13,7 +13,10 @@ class User < ActiveRecord::Base
 	# validates the parameters
 	validate :name, presence: true, lenght: { in: 1..50 }
 	validate :surname, presence: true, lenght: { in: 1..50 }
-	# TODO aggiungere i parametri rimanenti
+	validate :born_date, presence: true
+	validate :born_city, presence: true
+	validate :gender, presence: true
+	validate :user_type, presence: true
 
 	# generate a new token for the user
 	# Return the Token if success, otherwise nil
