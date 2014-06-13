@@ -1,4 +1,18 @@
 <% if @user %>
     <h1>Utente</h1>
     <h2><%= "#{@user[:name]} #{@user[:surname]}" %></h2>
+    <% if @user[:born_date] %>
+    	<p>Nato il <%= @user[:born_date] %> a <%= @user[:born_city] %>
+    <% end %>
+    <% if @user[:gender] %>
+    	<p>Sesso: <%= @user[:gender] %>
+    <% end %>
+    <% if @user[:classes] %>
+    	<h3>Classi</h3>
+    	<ul>
+    	<% @user[:classes].each do |c| %>
+    		<li><%= c.name %> <%= c.specialization %></li>
+    	<% end %>
+    	</ul>
+    <% end %>
 <% end %>

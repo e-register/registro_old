@@ -4,8 +4,11 @@ module UsersHelper
 	SHOW_TABLE = {
 		name: ACCESS_ANYONE,
 		surname: ACCESS_ANYONE,
+		born_date: ACCESS_ADMIN | ACCESS_COORD | ACCESS_TEACH | ACCESS_STUD | ACCESS_MYSELF,
+		born_city: ACCESS_ADMIN | ACCESS_COORD | ACCESS_TEACH | ACCESS_STUD | ACCESS_MYSELF,
+		gender: ACCESS_ADMIN | ACCESS_COORD | ACCESS_TEACH | ACCESS_STUD | ACCESS_MYSELF,
 		user_type: ACCESS_ANYONE,
-		classes: ACCESS_ADMIN | ACCESS_COORD | ACCESS_TEACH | ACCESS_STUD | ACCESS_MYSELF
+		classes: ACCESS_ADMIN | ACCESS_COORD | ACCESS_TEACH | ACCESS_STUD | ACCESS_MYSELF		
 	}
 	EDIT_TABLE = {
 		name: ACCESS_ADMIN | ACCESS_COORD,
@@ -25,6 +28,9 @@ module UsersHelper
 		
 		response[:name] = target.name 			if level & table[:name] > 0
 		response[:surname] = target.surname		if level & table[:surname] > 0
+		response[:born_date] = target.born_date	if level & table[:born_date] > 0
+		response[:born_city] = target.born_city	if level & table[:born_city] > 0		
+		response[:gender] = target.gender		if level & table[:gender] > 0		
 		response[:user_type] = target.user_type	if level & table[:user_type] > 0
 		response[:classes] = target.classes		if level & table[:classes] > 0
 		

@@ -10,10 +10,17 @@ class UsersHelperTest < ActionView::TestCase
 				
 		assert_not_nil r
 		
-		assert_equal edoardo.name, r[:name]
-		assert_equal edoardo.surname, r[:surname]
-		assert_equal edoardo.user_type, r[:user_type]
-		assert_equal edoardo.classes, r[:classes]
+		aspected = {
+			name: edoardo.name,
+			surname: edoardo.surname,
+			user_type: edoardo.user_type,
+			born_date: edoardo.born_date,
+			born_city: edoardo.born_city,
+			gender: edoardo.gender,
+			classes: edoardo.classes
+		}
+		
+		assert_equal aspected, r
 	end
 	
 	test "Get stranger info" do
