@@ -421,4 +421,25 @@ class UsersControllerTest < ActionController::TestCase
 	    assert_redirected_to new_user_path
 	    assert_equal "Impossibile creare l'utente", flash[:error]
 	end
+	
+	test "Create user authorized password mismatch" do
+		admin = users(:user_admin)
+	    
+	    p = {
+	        :user => {
+	            :name => rand(36**10).to_s(36),
+	            :surname => rand(36**10).to_s(36),
+	            :username => rand(36**10).to_s(36),
+	            :password => rand(36**10).to_s(36),
+	            :password_confirmation => rand(36**10).to_s(36)
+	        }
+	    }
+	    
+	    post :create, p, { :token => "a", :user_id => admin.id }
+	    
+	    user = Credential.check username: p[:user][:username], password: p[:user][:password]
+	    
+	    assert_equal "Impossibile creare l'utente", flash[:error]
+	    assert_redirected_to new_user_path
+	end
 end
