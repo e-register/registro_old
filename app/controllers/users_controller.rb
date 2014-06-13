@@ -118,11 +118,18 @@ class UsersController < ApplicationController
 	end
 	
 	def new
-		# TODO aggiungere controllo dei permessi
+		me = User.find session[:user_id]
+		access = get_new_info me
+		
+		# check if the user can access to the add page
+		if not access[:create]
+			redirect_to root_path
+			flash[:error] = "Accesso negato"
+			return
+		end
 	end
 	
 	def create
-		# TODO aggiungere controllo dei permessi
 		if not params[:user]
 		    render inline: "<h1>Bad Request</h1>", status: :bad_request
 			return

@@ -294,10 +294,19 @@ class UsersControllerTest < ActionController::TestCase
 		assert_equal "bb", edoardo2.surname
 	end
 	
-	test "get the new user form" do
+	test "get the new user form unauthorized" do
 	    edoardo = users(:user_edoardo)
 	    
 	    get :new, nil, { :token => "a", :user_id => edoardo.id }
+	    
+	    assert_redirected_to root_path
+	    assert_equal "Accesso negato", flash[:error]
+	end
+	
+	test "get the new user form authorized" do
+	    admin = users(:user_admin)
+	    
+	    get :new, nil, { :token => "a", :user_id => admin.id }
 	    
 	    assert_response :ok
 	end
@@ -374,7 +383,6 @@ class UsersControllerTest < ActionController::TestCase
 	    assert_not_nil user
 	    assert_redirected_to user_path user
 	    assert_equal p[:user][:name], user.name
-	    assert_equal p[:user][:surname], user.surname
-	    
+	    assert_equal p[:user][:surname], user.surname	    
 	end
 end

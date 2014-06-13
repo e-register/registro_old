@@ -55,4 +55,22 @@ class UsersHelperTest < ActionView::TestCase
 		assert_equal aspected, r
 	end
 	
+	test "Create allowed" do
+		admin = users(:user_admin)
+		
+		r = get_new_info admin
+		
+		assert_not_nil r
+		assert r[:create]
+	end
+	
+	test "Create not allowed" do
+		edoardo = users(:user_edoardo)
+		
+		r = get_new_info edoardo
+		
+		assert_not_nil r
+		assert_not r[:create]
+	end
+	
 end

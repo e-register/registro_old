@@ -12,6 +12,9 @@ module UsersHelper
 		surname: ACCESS_ADMIN | ACCESS_COORD,
 		user_type: ACCESS_ADMIN		
 	}
+	NEW_TABLE = {
+		create: ACCESS_ADMIN
+	}
 	
 	# get the accessible information about an user
 	def get_user_info me, target
@@ -39,12 +42,24 @@ module UsersHelper
 		return response
 	end
 	
+	# get the access information to create a new user
+	def get_new_info me
+		level = get_user_level me
+		table = NEW_TABLE
+		
+		response = {
+			create: level & table[:create] > 0
+		}
+		
+		return response
+	end
+	
 	# =============
 	    protected
 	# =============
 	
 	# get the level of the user about the target
-	def get_user_level me, target
+	def get_user_level me, target = me
 		# anyone
 		mask = ACCESS_ANYONE
 		# school administartor
