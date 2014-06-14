@@ -1,4 +1,5 @@
 class EvaluationsController < ApplicationController
+	include EvaluationsHelper
 	
 	before_filter :validate_id, :only => [ :show_class, :show_user, :edit, :update, :destroy ]
 	
@@ -17,8 +18,16 @@ class EvaluationsController < ApplicationController
 			render :index
 			return
 		end
+		
 		begin
-			@evaluation = Evaluation.find(params[:id])
+			me = User.find session[:user_id]
+			@evaluation = Evaluation.find(params[:id])	
+			access = can_show? me, @evaluation
+			if not access
+				redirect_to eval_index_path
+				flash[:error] = "Accesso negato"
+				return
+			end
 		rescue
 			flash[:error] = "Valutazione non trovata"
 		end

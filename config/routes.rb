@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 	#   EVALUATIONS
 	# ---------------
 	
-	get '/evaluations' => 'evaluations#index'
+	get '/evaluations' => 'evaluations#index', as: 'eval_index'
 	resource :evaluations
 	
 	get '/evaluations/class/:id' => 'evaluations#show_class'
