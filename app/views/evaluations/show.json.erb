@@ -1,0 +1,28 @@
+{
+	"teacher": {
+		"id": <%= @evaluation.teacher.id %>,
+		"name": "<%= @evaluation.teacher.name %>",
+		"surname": "<%= @evaluation.teacher.surname %>"
+	},
+	"student": {
+		"id": <%= @evaluation.student.id %>,
+		"name": "<%= @evaluation.student.name %>",
+		"surname": "<%= @evaluation.student.surname %>"
+	},
+	"date": "<%= @evaluation.date %>",
+	"score": {
+		"id": <%= @evaluation.score.id %>,
+		"value": <%= @evaluation.score.value %>,
+		"text": "<%= @evaluation.score.text %>"
+	},
+	"subject": {
+		"id": <%= @evaluation.subject.id %>,
+		"name": "<%= @evaluation.subject.name %>"
+	},
+	"type": "<%= @evaluation.evaluation_type %>",
+	"description": "<%= @evaluation.description %>",
+	"class_test": {
+		"id": <%= @evaluation.class_test.id %>,
+		"description": "<%= @evaluation.class_test.description %>"
+	}
+}

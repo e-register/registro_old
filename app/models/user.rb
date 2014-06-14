@@ -51,4 +51,9 @@ class User < ActiveRecord::Base
 		c.each { |class_info| a << class_info.admin }
 		return a.uniq
 	end
+	
+	def full_name
+		f = "#{name} #{surname}"
+		return f.strip
+	end
 end

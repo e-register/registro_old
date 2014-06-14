@@ -1,5 +1,11 @@
-<% if @evaluation %>
-	<h1>Valutazione specifica</h1>
-<% else %>
-	<h1>Le tue valutazioni sono</h1>
-<% end %>
+<h1>Valutazione specifica</h1>
+
+<h2>Insegnante: <%= @evaluation.teacher.full_name %></h2>
+<h2>Studente: <%= @evaluation.student.full_name %></h2>
+<h2>Data: <%= @evaluation.date %></h2>
+<h2>Voto: <%= @evaluation.score.text %></h2>
+<h2>Materia: <%= @evaluation.subject.name %></h2>
+<h2>Tipo: <%= @evaluation.evaluation_type %></h2>
+<h2>Descrizione</h2>
+<p><%= @evaluation.description %></p>
+<h2>Compito: <%= @evaluation.class_test.description %></h2>

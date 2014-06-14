@@ -60,4 +60,16 @@ class UserTest < ActiveSupport::TestCase
 		
 		assert_equal [prof], a
 	end
+	
+	test "Check full name edoardo" do
+		edoardo = users(:user_edoardo)
+		
+		assert_equal "Edoardo Morassutto", edoardo.full_name
+	end
+	
+	test "Check full name admin" do
+		admin = users(:user_admin)
+		
+		assert_equal "Administrator", admin.full_name
+	end
 end
