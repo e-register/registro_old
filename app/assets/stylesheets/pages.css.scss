@@ -1,3 +1,22 @@
 // Place all the styles related to the Pages controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.panel {
+	.panel-heading {
+		h3 { 
+			margin: 0px;
+			font-size: 1.3em;
+		}
+	}
+	.panel-body {
+		.image {
+			width: 100%;
+			min-height: 100px;
+		}
+		.btn-fill-width {		
+			width: 100%;
+			margin-top: 5px;
+		}
+	}
+}

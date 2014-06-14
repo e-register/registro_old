@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-	# TODO edit to get to the application controller
 	root :to => 'pages#index'
 
 	# ---------------
