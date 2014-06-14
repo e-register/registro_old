@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20140613171008) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "class_infos", force: true do |t|
     t.string  "name"
     t.string  "specialization"
@@ -58,7 +61,7 @@ ActiveRecord::Schema.define(version: 20140613171008) do
     t.float  "value"
   end
 
-  create_table "students", id: false, force: true do |t|
+  create_table "students", force: true do |t|
     t.integer "student_id"
     t.integer "class_info_id"
   end
@@ -70,7 +73,7 @@ ActiveRecord::Schema.define(version: 20140613171008) do
     t.string "description"
   end
 
-  create_table "teachers", id: false, force: true do |t|
+  create_table "teachers", force: true do |t|
     t.integer "teacher_id"
     t.integer "subject_id"
     t.integer "class_info_id"
@@ -88,8 +91,8 @@ ActiveRecord::Schema.define(version: 20140613171008) do
   add_index "tokens", ["token"], name: "index_tokens_on_token", unique: true, using: :btree
 
   create_table "users", force: true do |t|
-    t.string  "name"
-    t.string  "surname"
+    t.string  "name",      limit: 50
+    t.string  "surname",   limit: 50
     t.date    "born_date"
     t.string  "born_city"
     t.integer "gender"

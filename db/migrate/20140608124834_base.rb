@@ -36,7 +36,7 @@ class Base < ActiveRecord::Migration
   		t.belongs_to :admin, as: :user
   	end
   	
-  	create_table :students, force: true, id: false do |t| 
+  	create_table :students, force: true do |t| 
 		t.belongs_to :student, as: :user
 		t.belongs_to :class_info
   	end
@@ -47,7 +47,7 @@ class Base < ActiveRecord::Migration
   		t.string :description
   	end
   	
-  	create_table :teachers, force: true, id: false do |t|
+  	create_table :teachers, force: true do |t|
 		t.belongs_to :teacher
 		t.belongs_to :subject
 		t.belongs_to :class_info
