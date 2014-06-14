@@ -2,7 +2,7 @@
 	<span class="navbar-text navbar-right">
 		Benvenuto
 		<% user = User.find session[:user_id] %>		
-		<%= link_to "#{user.name} #{user.surname}", me_path %>
+		<%= link_to user.full_name, me_path %>
 	</span>
 	<%= link_to "Logout", logout_path, class: [ "btn", "btn-warning", "navbar-right", "navbar-btn" ] %>
 <% elsif params[:controller] != "user" && params[:action] != "login" %>
