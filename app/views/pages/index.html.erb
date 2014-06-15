@@ -4,18 +4,20 @@
 	<p>Questo istituto offre ad i suoi studenti la possibilità di affermare le loro capacità e la loro passione per le materie tecniche. 
 	<p>I quattro indirizzi, <strong>meccanica</strong> e plasturgia, <strong>elettronica</strong>, <strong>chimica</strong> ed <strong>informatica</strong>, offrono un'ampia scelta allo studente. 
 </div>
-<div class="col-sm-4">
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h3>Valutazioni</h3>
-		</div>
-		<div class="panel-body">
-			<div class="image">
-				<%= image_tag "evaluations.svg", alt: "Evaluations", width: '100%' %>
+<% if @index[:evaluation] %>
+	<div class="col-sm-4">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>Valutazioni</h3>
 			</div>
-			<%= link_to "Accedi al registro", eval_index_path, class: [ "btn", "btn-default", "btn-fill-width" ] %>
-			<%= link_to "Strumenti rapidi", root_path, class: [ "btn", "btn-default", "btn-fill-width" ] %>
-			<%= link_to "Nuovo voto", new_evaluations_path, class: [ "btn", "btn-default", "btn-fill-width" ] %>
+			<div class="panel-body">
+				<div class="image">
+					<%= image_tag "evaluations.svg", alt: "Evaluations", width: '100%' %>
+				</div>
+				<% @index[:evaluation].each do |k,v| %>
+					<%= link_to k, v, class: [ "btn", "btn-default", "btn-fill-width" ] %>
+				<% end %>
+			</div>
 		</div>
 	</div>
-</div>
+<% end %>
