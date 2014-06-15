@@ -1,0 +1,34 @@
+[
+<% k = 0 %>
+<% @evaluations.each do |e| %>
+	{
+		"teacher": {
+			"id": <%= e.teacher.id %>,
+			"name": "<%= e.teacher.name %>",
+			"surname": "<%= e.teacher.surname %>"
+		},
+		"student": {
+			"id": <%= e.student.id %>,
+			"name": "<%= e.student.name %>",
+			"surname": "<%= e.student.surname %>"
+		},
+		"date": "<%= e.date %>",
+		"score": {
+			"id": <%= e.score.id %>,
+			"value": <%= e.score.value %>,
+			"text": "<%= e.score.text %>"
+		},
+		"subject": {
+			"id": <%= e.subject.id %>,
+			"name": "<%= e.subject.name %>"
+		},
+		"type": "<%= e.evaluation_type %>",
+		"description": "<%= e.description %>",
+		"class_test": {
+			"id": <%= e.class_test.id %>,
+			"description": "<%= e.class_test.description %>"
+		}
+	}<%= "," if k < @evaluations.length-1 %>
+<% k += 1 %>
+<% end %>
+]
