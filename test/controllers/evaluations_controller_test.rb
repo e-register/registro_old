@@ -73,4 +73,28 @@ class EvaluationsControllerTest < ActionController::TestCase
 		assert_equal "Classe non trovata", flash[:error]
 		assert_redirected_to eval_index_path
 	end
+	
+	test "get user with valid id" do
+		edoardo = users(:user_edoardo)
+		
+		e1 = evaluations(:eval_1)
+		
+		get :show_user, { id: edoardo.id }, { token: "a", user_id: edoardo.id }
+		
+		e = assigns(:evaluations)
+		
+		assert_nil flash[:error]
+		assert_response :ok
+		
+		assert_equal [ e1 ], e
+	end
+	
+	test "get user with invalid id" do
+		edoardo = users(:user_edoardo)
+		
+		get :show_user, { id: 1 }, { token: "a", user_id: edoardo.id }
+		
+		assert_equal "Utente non trovato", flash[:error]
+		assert_redirected_to eval_index_path
+	end
 end
