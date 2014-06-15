@@ -22,6 +22,11 @@ class ClassInfoTest < ActiveSupport::TestCase
   	aspected = [ edoardo, elia ]
   	
   	assert_equal aspected, c.get_students(true)
+  	
+  	s = c.get_students  	
+  	assert_equal 2, s.length
+  	assert s.include? edoardo
+  	assert s.include? elia
   end
   
   test "Get teachers" do
@@ -31,5 +36,10 @@ class ClassInfoTest < ActiveSupport::TestCase
   	aspected = [ teacher ]
   	
   	assert_equal aspected, c.get_teachers(true)
+  	
+  	t = c.get_teachers
+  	
+  	assert_equal 1, t.length
+  	assert t.include? teacher
   end
 end
