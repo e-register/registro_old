@@ -1,6 +1,7 @@
 class EvaluationsController < ApplicationController
 	include EvaluationsHelper
 	
+	before_filter :need_login
 	before_filter :validate_id, :only => [ :show_class, :show_user, :edit, :update, :destroy ]
 	
 	# this shows the list of evaluations
@@ -35,7 +36,7 @@ class EvaluationsController < ApplicationController
 	
 	# this shows the list of the evaluations of a class
 	def show_class
-		# TODO process the class id
+		
 	end
 	
 	# this shows the list of the evaluations of a user
@@ -91,4 +92,8 @@ class EvaluationsController < ApplicationController
 		end
 	end
 	
+	# check if the user is logged in
+	def need_login
+		redirect_to login_path unless session[:token]
+	end
 end
