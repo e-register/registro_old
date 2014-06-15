@@ -28,7 +28,8 @@ RAILS_ENV=test bundle exec rake --trace db:migrate test
 
 end=`date +%s%N`
 elasped=`echo "scale=3;($end-$start)/1000000000" | bc`
-
+coverage=`egrep -o '([0-9\.]*)' coverage/.last_run.json`
 
 echo -e "$GREEN\n------------ ALL TEST SUCCEDED! --------------$DEFAULT"
-echo -e "$YELLOW------- tempo impiegato: $elasped sec -----------\n$DEFAULT"
+echo -e "$YELLOW--------- elasped time: $elasped sec ------------$DEFAULT"
+echo -e "$YELLOW----------- coverage: $coverage % ----------------\n$DEFAULT"
