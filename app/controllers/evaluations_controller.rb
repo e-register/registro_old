@@ -49,7 +49,15 @@ class EvaluationsController < ApplicationController
 	
 	# this shows the list of the evaluations of a user
 	def show_user
-		# TODO process the user id
+		begin
+			@user = User.find params[:id]
+		rescue
+			flash[:error] = "Utente non trovato"
+			redirect_to eval_index_path
+			return
+		end
+		
+		@evaluations = Evaluation.get_from_user @user
 	end
 	
 	# this shows a form to edit an evaluation

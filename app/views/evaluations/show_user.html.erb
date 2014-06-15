@@ -1,0 +1,13 @@
+<h1>Valutazioni di <%= @user.full_name %></h1>
+<% @evaluations.each do |e| %>
+	<hr>
+	<h4>Insegnante: <%= e.teacher.full_name %></h2>
+	<h4>Studente: <%= e.student.full_name %></h2>
+	<h4>Data: <%= e.date %></h2>
+	<h4>Voto: <%= e.score.text %></h2>
+	<h4>Materia: <%= e.subject.name %></h2>
+	<h4>Tipo: <%= e.evaluation_type %></h2>
+	<h4>Descrizione</h2>
+	<p><%= e.description %></p>
+	<h4>Compito: <%= e.class_test.description %></h2>
+<% end %>
