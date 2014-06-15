@@ -19,4 +19,27 @@ class PagesHelperTest < ActionView::TestCase
 		admin = users(:user_admin)
 		assert_equal :admin, get_user_type(admin.id)
 	end
+	
+	test "Get index teacher" do
+		prof = users(:user_prof)
+		aspected = {
+			evaluation: {
+				"Accedi al registro" => eval_index_path,
+				"Aggiungi un voto" => new_evaluations_path
+			}
+		}
+		
+		assert_equal aspected, get_index(prof.id)
+	end
+	
+	test "Get index student" do
+		edoardo = users(:user_edoardo)
+		aspected = {
+			evaluation: {
+				"Accedi al registro" => eval_index_path
+			}
+		}
+		
+		assert_equal aspected, get_index(edoardo.id)
+	end
 end
