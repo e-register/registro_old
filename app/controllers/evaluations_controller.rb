@@ -36,7 +36,15 @@ class EvaluationsController < ApplicationController
 	
 	# this shows the list of the evaluations of a class
 	def show_class
+		begin
+			class_info = ClassInfo.find params[:id]
+		rescue
+			flash[:error] = "Classe non trovata"
+			redirect_to eval_index_path
+			return
+		end
 		
+		@evaluations = Evaluation.get_from_class class_info
 	end
 	
 	# this shows the list of the evaluations of a user

@@ -22,15 +22,55 @@ class EvaluationsControllerTest < ActionController::TestCase
 	end
 	
 	test "show without id" do
-		get :show
+		edoardo = users(:user_edoardo)
+		
+		get :show, {}, { token: "a", user_id: edoardo.id }
 		assert_response :ok
 	end
 	
 	test "show with malformed id" do
-		get :show, { 'id' => "a" }
+		edoardo = users(:user_edoardo)
+		
+		get :show, { 'id' => "a" }, { token: "a", user_id: edoardo.id }
 		assert_redirected_to root_path
 		
-		get :show, { 'id' => "" }
+		get :show, { 'id' => "" }, { token: "a", user_id: edoardo.id }
 		assert_redirected_to root_path
+	end
+	
+	test "show not logged in" do
+		e = evaluations(:eval_2)
+	
+		get :show, { 'id' => e.id }, {}
+		assert_redirected_to login_path
+	end
+	
+	test "get class with valid id" do
+		edoardo = users(:user_edoardo)
+		c = class_infos(:class_1)
+		
+		e1 = evaluations(:eval_1)
+		e2 = evaluations(:eval_2)
+		
+		get :show_class, { id: c.id }, { token: "a", user_id: edoardo.id }
+		
+		e = assigns(:evaluations)
+		
+		assert_nil flash[:error]
+		assert_response :ok
+		
+		assert_not_nil e
+		assert_equal 2, e.length
+		assert e.include? e1
+		assert e.include? e2
+	end
+	
+	test "get class with invalid id" do
+		edoardo = users(:user_edoardo)
+		
+		get :show_class, { id: 1 }, { token: "a", user_id: edoardo.id }
+		
+		assert_equal "Classe non trovata", flash[:error]
+		assert_redirected_to eval_index_path
 	end
 end
