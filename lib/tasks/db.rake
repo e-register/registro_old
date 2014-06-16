@@ -1,5 +1,5 @@
-#require 'date'
 namespace :db do
+	require 'password_hash'
 
 	desc 'Truncate all tables'
 	task :truncate => :environment do	 
@@ -36,14 +36,14 @@ namespace :db do
   	teachers = create_teachers classes, subjects, users_teacher, max_tuple_per_class
   	users_student = create_users_student num_students, num_teachers
   	students = create_students classes, users_student
-  	scores = create_scores  	
+  	credentials = create_credentials users_teacher, users_student
+  	scores = create_scores
   	evaluations = create_evaluations teachers, students, scores, max_eval_per_student, start_date, end_date
   	
   	startPopulation = Time.now
-  	puts "** All data is now generated! Let's save!"
+  	puts "** All data is generated! Let's save!"
   	
   	puts "   == #{classes.length} classes"
-  	#ClassInfo.create(classes)
   	big_query(ClassInfo, classes)
   	puts "   ==> #{classes.length} classes saved"
   	
@@ -66,6 +66,10 @@ namespace :db do
   	puts "   == #{students.length} students"
   	big_query(Student, students)
   	puts "   ==> #{students.length} students saved"
+  	
+  	puts "   == #{credentials.length} credentials"  	
+  	big_query(Credential, credentials)
+  	puts "   ==> #{credentials.length} credentials saved"
   	
   	puts "   == #{scores.length} scores"  	
   	big_query(Score, scores)
@@ -224,6 +228,28 @@ namespace :db do
   	return studs
   end
   
+  def create_credentials teachers, students
+  	credentials = []
+  	teachers.each do |t|
+  		c = {
+  			username: "teach#{t[:id]}",
+  			password: PasswordHash.createHash("password"),
+  			user_id: t[:id]
+  		}
+  		credentials << c
+  	end
+  	num_teachers = teachers.length
+  	students.each do |s|
+  		c = {
+  			username: "stud#{s[:id]-num_teachers}",
+  			password: PasswordHash.createHash("password"),
+  			user_id: s[:id]
+  		}
+  		credentials << c
+  	end
+  	return credentials
+  end
+  
   def create_scores
   	scores = []
   	for i in 2..9 do
@@ -249,6 +275,7 @@ namespace :db do
   					e[:id] = evaluations.length + 1
   					e[:teacher_id] = t[:teacher_id]
   					e[:student_id] = s[:student_id]
+  					e[:subject_id] = t[:subject_id]
   					e[:date] = rand_date(start_date, end_date)
   					score_idx = clamp avar+rand(-6..6), 0, num_scores-1
   					e[:score_id] = scores[score_idx][:id]
