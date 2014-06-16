@@ -1,3 +1,4 @@
+#require 'date'
 namespace :db do
 
 	desc 'Truncate all tables'
@@ -14,14 +15,14 @@ namespace :db do
   desc "Populate the database with an amount of random data"
   task populate: :environment do
   	# load the generation parameters  
-  	num_classes = ENV['num_classes'] ? ENV['num_classes'] : 20
-  	num_students = ENV['num_students'] ? ENV['num_students'] : 500
-  	num_subjects = ENV['num_subjects'] ? ENV['num_subjects'] : 20
-  	num_teachers = ENV['num_teachers'] ? ENV['num_teachers'] : 30
-  	max_tuple_per_class = ENV['max_tuple_per_class'] ? ENV['max_tuple_per_class'] : 15
-  	max_eval_per_student = ENV['num_eval_per_student'] ? ENV['num_eval_per_student'] : 10
-  	start_date = ENV['start_date'] ? ENV['start_date'] : "2013-09-01"
-  	end_date = ENV['end_date'] ? ENV['end_date'] : "2014-06-11"
+  	num_classes = ENV['num_classes'] || 20
+  	num_students = ENV['num_students'] || 500
+  	num_subjects = ENV['num_subjects'] || 20
+  	num_teachers = ENV['num_teachers'] || 30
+  	max_tuple_per_class = ENV['max_tuple_per_class'] || 15
+  	max_eval_per_student = ENV['num_eval_per_student'] || 10
+  	start_date = ENV['start_date'] || "2013-09-01"
+  	end_date = ENV['end_date'] || "2014-06-11"
 
 	startTruncate = Time.now  
   	Rake::Task["db:truncate"].invoke
@@ -92,6 +93,12 @@ namespace :db do
   	model.transaction do
   		data.each { |d| model.create(d) }
   	end
+  end
+  def rand_date from, to
+  	from = Time.parse(from)
+  	to = Time.parse(to)
+  	time = Time.at(from + rand * (to.to_f - from.to_f))
+  	Date.civil(time.year, time.month, time.day)
   end
   
   def create_classes num_classes
@@ -236,13 +243,13 @@ namespace :db do
   		students.each do |s|
   			if t[:class_info_id] == s[:class_info_id]
   				avar = rand(0..num_scores)
-  				num_eval = rand(max_eval_per_student)
+  				num_eval = rand((max_eval_per_student/2)...max_eval_per_student)
   				num_eval.times do 
   					e = {}
   					e[:id] = evaluations.length + 1
   					e[:teacher_id] = t[:teacher_id]
   					e[:student_id] = s[:student_id]
-  					e[:date] = '2014-01-01'
+  					e[:date] = rand_date(start_date, end_date)
   					score_idx = clamp avar+rand(-6..6), 0, num_scores-1
   					e[:score_id] = scores[score_idx][:id]
   					e[:evaluation_type] = rand(3)
