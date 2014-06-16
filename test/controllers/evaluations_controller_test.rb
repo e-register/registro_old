@@ -46,13 +46,13 @@ class EvaluationsControllerTest < ActionController::TestCase
 	end
 	
 	test "get class with valid id" do
-		edoardo = users(:user_edoardo)
+		prof = users(:user_prof)
 		c = class_infos(:class_1)
 		
 		e1 = evaluations(:eval_1)
 		e2 = evaluations(:eval_2)
 		
-		get :show_class, { id: c.id }, { token: "a", user_id: edoardo.id }
+		get :show_class, { id: c.id }, { token: "a", user_id: prof.id }
 		
 		e = assigns(:evaluations)
 		

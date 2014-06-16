@@ -43,8 +43,9 @@ class EvaluationsController < ApplicationController
 			redirect_to eval_index_path
 			return
 		end
-		
-		@evaluations = Evaluation.get_from_class @class_info
+		me = User.find session[:user_id]
+		raw = Evaluation.get_from_class @class_info
+		@evaluations = can_show_multiple me, raw
 	end
 	
 	# this shows the list of the evaluations of a user
@@ -57,7 +58,9 @@ class EvaluationsController < ApplicationController
 			return
 		end
 		
-		@evaluations = Evaluation.get_from_user @user
+		me = User.find session[:user_id]
+		raw = Evaluation.get_from_user @user
+		@evaluations = can_show_multiple me, raw
 	end
 	
 	# this shows a form to edit an evaluation

@@ -44,7 +44,7 @@ module EvaluationsHelper
 		# school administrator
 		level |= ACCESS_ADMIN if me.admin?
 		# class administrator
-		level |= ACCESS_COORD if me.teacher? and eval.student.admins.contains me
+		level |= ACCESS_COORD if me.teacher? and eval.student.admins.include? me
 		# class teacher
 		level |= ACCESS_TEACH if me.teacher? and eval.student.same_class? me
 		# class student
