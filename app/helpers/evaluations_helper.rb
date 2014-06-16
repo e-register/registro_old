@@ -6,11 +6,22 @@ module EvaluationsHelper
 		visible: ACCESS_ADMIN | ACCESS_COORD | ACCESS_MYSELF
 	}
 	
+	# check if the user can view the evaluation, according to the SHOW_TABLE
 	def can_show? me, eval
-		level = get_user_level me, eval
 		table = SHOW_TABLE
+		level = get_user_level me, eval
 		
 		return level & table[:visible] > 0
+	end
+	
+	# check witch of a series of evaluations can be viewed
+	def can_show_multiple me, evals
+		table = SHOW_TABLE
+		visible = []
+		
+		evals.each { |e| visible << e if can_show? me, e }
+		
+		return visible
 	end
 	
 	# =============
@@ -19,6 +30,16 @@ module EvaluationsHelper
 	
 	# get the level of the user about the evaluation
 	def get_user_level me, eval
+		# this will load:
+		# if me.teacher?
+		# 	- the student of the evaluation
+		# 		- the classes of the user (teacher or student)
+		# 		- the admin of each class
+		# if me.student?
+		#	- the student of the evaluation
+		#		- the classes of the user
+		#		- the classes of the student	
+	
 		level = ACCESS_ANYONE
 		# school administrator
 		level |= ACCESS_ADMIN if me.admin?

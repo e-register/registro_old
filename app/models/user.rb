@@ -34,9 +34,11 @@ class User < ActiveRecord::Base
 	
 	# extract the classes where the user is in
 	def classes
-		teach = Teacher.where(teacher: self).to_a.map{ |e| e.class_info }
-		stud = Student.where(student: self).to_a.map{ |e| e.class_info }
-		return teach.concat(stud).uniq
+		if self.student?
+			return Student.where(student: self).to_a.map{ |e| e.class_info }.uniq
+		else
+			return Teacher.where(teacher: self).to_a.map{ |e| e.class_info }.uniq
+		end
 	end
 	
 	# check if the user has a mutual class with an other user
