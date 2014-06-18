@@ -60,7 +60,12 @@ class EvaluationsController < ApplicationController
 		
 		me = User.find session[:user_id]
 		raw = Evaluation.get_from_user @user
+		start = Time.now
 		@evaluations = can_show_multiple me, raw
+		finish = Time.now
+		logger.debug "TEMPO IMPIEGATO: #{finish-start}"
+		logger.debug "VALUTAZIONI IN INGRESSO: #{raw.length}"
+		logger.debug "VALUTAZIONI IN USCITA: #{@evaluations.length}"
 	end
 	
 	# this shows a form to edit an evaluation

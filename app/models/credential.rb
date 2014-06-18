@@ -26,7 +26,7 @@ class Credential < ActiveRecord::Base
 		end
 	end
 		
-	def self.create options = {}
+	def self.generate options = {}
 		c = Credential.new options
 		c.password = PasswordHash.createHash options[:password]
 		c.save!

@@ -163,7 +163,7 @@ class UsersController < ApplicationController
 			User.transaction do
 				Credential.transaction do				
 					user = User.create create_user_params
-		    		credential = Credential.create create_credential_params user
+		    		credential = Credential.generate create_credential_params user
 		    	end
 		    end
 		    redirect_to user_path user

@@ -74,7 +74,7 @@ module UsersHelper
 		# school administartor
 		mask |= ACCESS_ADMIN if me.admin?
 		# class administartor
-		mask |= ACCESS_COORD if me.teacher? and target.student? and target.admins.contains me
+		mask |= ACCESS_COORD if me.teacher? and target.student? and target.admins.include? me
 		# class teacher
 		mask |= ACCESS_TEACH if me.teacher? and target.student? and me.same_class? target
 		# class student

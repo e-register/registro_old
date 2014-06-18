@@ -20,7 +20,7 @@ namespace :db do
   	num_subjects = ENV['num_subjects'] || 20
   	num_teachers = ENV['num_teachers'] || 30
   	max_tuple_per_class = ENV['max_tuple_per_class'] || 15
-  	max_eval_per_student = ENV['num_eval_per_student'] || 10
+  	max_eval_per_student = ENV['max_eval_per_student'] || 10
   	start_date = ENV['start_date'] || "2013-09-01"
   	end_date = ENV['end_date'] || "2014-06-11"
 
@@ -94,8 +94,22 @@ namespace :db do
   	((num*(10**dec)).to_i).to_f/(10**dec)
   end
   def big_query model, data
-  	model.transaction do
-  		data.each { |d| model.create(d) }
+  	# if the query is not really big
+  	if data.length < 1000
+  		model.transaction { data.each { |d| model.create(d) } }
+  	# if it's bigger than 1000, show a 'progress-bar'
+  	else
+  		count = 0
+  		step = data.length / 15
+  		print "   == "
+  		model.transaction do
+  			data.each do |d|
+  				model.create d
+  				count += 1
+  				print "." if count % step == 0
+  			end
+  		end
+  		puts ""
   	end
   end
   def rand_date from, to
@@ -198,6 +212,7 @@ namespace :db do
   
   def create_users_student num_students, num_teachers
   	num_students = num_students.to_i
+  	num_teachers = num_teachers.to_i
   	students = []
   	
   	for i in 1..num_students do
@@ -263,6 +278,7 @@ namespace :db do
   end
   
   def create_evaluations teachers, students, scores, max_eval_per_student, start_date, end_date
+	max_eval_per_student = max_eval_per_student.to_i
   	evaluations = []
   	num_scores = scores.length
   	teachers.each do |t|

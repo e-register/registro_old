@@ -23,11 +23,11 @@
 			"name": "<%= e.subject.name %>"
 		},
 		"type": "<%= e.evaluation_type %>",
-		"description": "<%= e.description %>",
+		"description": "<%= e.description %>"<% if not e.class_test.nil? %>,
 		"class_test": {
 			"id": <%= e.class_test.id %>,
 			"description": "<%= e.class_test.description %>"
-		}
+		}<% end %>
 	}<%= "," if k < @evaluations.length-1 %>
 <% k += 1 %>
 <% end %>

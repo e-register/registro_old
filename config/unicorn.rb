@@ -1,5 +1,5 @@
 worker_processes 4
-timeout 15
+timeout 1000
 
 before_fork do |server, worker|
   Signal.trap 'TERM' do
