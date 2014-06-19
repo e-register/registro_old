@@ -8,7 +8,7 @@ module UsersHelper
 		born_city: ACCESS_ADMIN | ACCESS_COORD | ACCESS_TEACH | ACCESS_MYSELF,
 		gender: ACCESS_ADMIN | ACCESS_COORD | ACCESS_TEACH | ACCESS_STUD | ACCESS_MYSELF,
 		user_type: ACCESS_ADMIN | ACCESS_COORD | ACCESS_TEACH | ACCESS_STUD | ACCESS_MYSELF,
-		classes: ACCESS_ADMIN | ACCESS_COORD | ACCESS_TEACH | ACCESS_STUD | ACCESS_MYSELF		
+		classes: ACCESS_ADMIN | ACCESS_COORD | ACCESS_TEACH | ACCESS_STUD | ACCESS_MYSELF
 	}
 	EDIT_TABLE = {
 		name: ACCESS_ADMIN | ACCESS_COORD,
@@ -21,52 +21,52 @@ module UsersHelper
 	NEW_TABLE = {
 		create: ACCESS_ADMIN
 	}
-	
+
 	# get the accessible information about an user
 	def get_user_info me, target
 		level = get_user_level me, target
 		table = SHOW_TABLE
-		
+
 		response = {}
-		
+
 		response[:name] = target.name 			if level & table[:name] > 0
 		response[:surname] = target.surname		if level & table[:surname] > 0
 		response[:born_date] = target.born_date	if level & table[:born_date] > 0
-		response[:born_city] = target.born_city	if level & table[:born_city] > 0		
-		response[:gender] = target.gender		if level & table[:gender] > 0		
+		response[:born_city] = target.born_city	if level & table[:born_city] > 0
+		response[:gender] = target.gender		if level & table[:gender] > 0
 		response[:user_type] = target.user_type	if level & table[:user_type] > 0
 		response[:classes] = target.classes		if level & table[:classes] > 0
-		
+
 		return response
 	end
-	
+
 	# get the editable information about target by me
 	def get_edit_info me, target
 		level = get_user_level me, target
 		table = EDIT_TABLE
-		
-		response = []		
+
+		response = []
 		table.each { |p, l| response << p if level & l > 0 }
-		
+
 		return response
 	end
-	
+
 	# get the access information to create a new user
 	def get_new_info me
 		level = get_user_level me
 		table = NEW_TABLE
-		
+
 		response = {
 			create: level & table[:create] > 0
 		}
-		
+
 		return response
 	end
-	
+
 	# =============
 	    protected
 	# =============
-	
+
 	# get the level of the user about the target
 	def get_user_level me, target = me
 		# anyone
@@ -81,7 +81,7 @@ module UsersHelper
 		mask |= ACCESS_STUD if target.student? and me.same_class? target
 		# me
 		mask |= ACCESS_MYSELF if me == target
-		
+
 		return mask
 	end
 end

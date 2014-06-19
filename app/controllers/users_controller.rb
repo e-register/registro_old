@@ -1,9 +1,9 @@
 class UsersController < ApplicationController
 	include UsersHelper
-	
+
 	before_filter :need_login, :only => [ :user, :edit, :update, :new, :create ]
 	before_filter :validate_id, :only => [ :user, :edit, :update ]
-	
+
 	# the login form & the login action
 	def login
 		# if the user is alread logged in, redirect him somewhere
@@ -36,7 +36,7 @@ class UsersController < ApplicationController
 			end
 		end
 	end
-	
+
 	def logout
 		# if the user wasn't logged it
 		unless session[:token]
@@ -49,37 +49,37 @@ class UsersController < ApplicationController
 			redirect_to login_path
 		end
 	end
-	
+
 	def user
 		begin
 			me = User.find session[:user_id]
 			target = User.find params[:id]
-			
+
 		    @user = get_user_info me, target
 		rescue ActiveRecord::RecordNotFound
     		flash.now[:error] = "Utente non trovato"
 		end
 	end
-	
+
 	def edit
 		begin
 			me = User.find session[:user_id]
 			target = User.find params[:id]
-			
+
 			@access = get_edit_info me, target
 		    @user = User.find params[:id]
 		rescue ActiveRecord::RecordNotFound
     		flash.now[:error] = "Utente non trovato"
 		end
-		
+
 	end
-	
+
 	def update
 		if not params[:user]
 			render inline: "<h1>Bad Request</h1>", status: :bad_request
 			return
 		end
-		
+
 		# get the affected user
 		p = params[:user]
 		begin
@@ -90,9 +90,9 @@ class UsersController < ApplicationController
 			redirect_to me_path
 			return
 		end
-		
+
 		access = get_edit_info me, user
-		
+
 		# do the update
 		p.each do |param, value|
 			if access.include? param.to_sym
@@ -109,18 +109,18 @@ class UsersController < ApplicationController
 				return
 			end
 		end
-		
+
 		# execute the update (this should not fail...)
 		user.save!
-				
+
 		flash[:info] = "Informazioni salvate"
 		redirect_to_edit user
 	end
-	
+
 	def new
 		me = User.find session[:user_id]
 		access = get_new_info me
-		
+
 		# check if the user can access to the add page
 		if not access[:create]
 			redirect_to root_path
@@ -128,25 +128,25 @@ class UsersController < ApplicationController
 			return
 		end
 	end
-	
+
 	def create
 		me = User.find session[:user_id]
 		access = get_new_info me
-		
+
 		# check if the user can create a user
 		if not access[:create]
 			redirect_to root_path
 			flash[:error] = "Accesso negato"
 			return
 		end
-		
+
 		if not params[:user]
 		    render inline: "<h1>Bad Request</h1>", status: :bad_request
 			return
 		end
-		
+
 		p = params[:user]
-		
+
 		# check if all required params are present
 		required_params = [ 'username', 'password', 'name', 'surname' ]
 		required_params.each do |key|
@@ -156,12 +156,12 @@ class UsersController < ApplicationController
 			    return
 		    end
 		end
-		
+
 		user = nil
-		
+
 		begin
 			User.transaction do
-				Credential.transaction do				
+				Credential.transaction do
 					user = User.create create_user_params
 		    		credential = Credential.generate create_credential_params user
 		    	end
@@ -172,16 +172,16 @@ class UsersController < ApplicationController
 		    redirect_to new_user_path
 		end
 	end
-	
+
 	# ==================
 	     protected
 	# ==================
-		
+
 	# check if the user is logged in
 	def need_login
 		redirect_to login_path unless session[:token]
 	end
-	
+
 	# check if the id parameter is valid
 	def validate_id
 		params[:id] = session[:user_id] if params[:id] == nil
@@ -192,7 +192,7 @@ class UsersController < ApplicationController
 		end
 		return true
 	end
-	
+
 	# redirect to the correct edit page
 	def redirect_to_edit user
 		if user.id == session[:user_id]
@@ -202,12 +202,12 @@ class UsersController < ApplicationController
 		end
 		return true
 	end
-	
-	
+
+
 	# ==============
 	     private
 	# ==============
-	
+
 	def create_user_params params = params
 		p = params[:user]
 		return {
@@ -219,10 +219,10 @@ class UsersController < ApplicationController
 			user_type: p[:user_type]
 		}
 	end
-	
+
 	def create_credential_params user, params = params
-		p = { 
-			username: params[:user][:username], 
+		p = {
+			username: params[:user][:username],
 			password: params[:user][:password],
 			user_id: user.id
 		}

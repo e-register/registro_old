@@ -6,11 +6,11 @@ mysql: &mysql
   adapter: mysql2
   username: travis
   database: registro
- 
+
 postgresql: &postgresql
   adapter: postgresql
   username: postgres
-  password: 
+  password:
   database: registro
   min_messages: ERROR
 

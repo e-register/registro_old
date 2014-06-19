@@ -4,10 +4,10 @@ class LoginFailTest < ActiveSupport::TestCase
   test "login fails log" do
   	username = rand(36**15).to_s(36)
   	ip = [rand(256),rand(256),rand(256),rand(256)].join('.')
-  	
-  	res = LoginFail.bad_password(ip, username: username, password: "password")  	  	
+
+  	res = LoginFail.bad_password(ip, username: username, password: "password")
   	assert res
-  	
+
   	l = LoginFail.where(username: username).first
   	assert_not_nil l
   	assert_equal username, l.username

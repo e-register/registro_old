@@ -8,9 +8,9 @@ class TeacherTest < ActiveSupport::TestCase
     subject = Subject.where(name: "Matematica").first
 
     teacher = Teacher.where(teacher: user).first
-    
+
     assert_not_nil teacher
-    
+
     assert_equal user, teacher.teacher
     assert_equal classinfo, teacher.class_info
     assert_equal subject, teacher.subject

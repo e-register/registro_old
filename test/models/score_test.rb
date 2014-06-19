@@ -5,7 +5,7 @@ class ScoreTest < ActiveSupport::TestCase
     10.times do |i|
       s = Score.where(value: i+1).first
       assert_not_nil s
-      
+
       assert_equal i+1, s.value
       assert_equal "#{i+1}", s.text
     end

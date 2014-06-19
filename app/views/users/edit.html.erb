@@ -3,27 +3,27 @@
 		<% if @access.include? :name %>
 			Nome: <%= text_field :user, :name, class: "form-control" %><br>
 		<% end %>
-		
+
 		<% if @access.include? :surname %>
 			Cognome: <%= text_field :user, :surname, class: "form-control" %><br>
 		<% end %>
-		
+
 		<% if @access.include? :born_date %>
 			Data di nascita: <%= date_field :user, :born_date, class: "form-control" %><br>
 		<% end %>
-		
+
 		<% if @access.include? :born_city %>
 			Comune di nascita: <%= text_field :user, :born_city, class: "form-control" %><br>
-		<% end %>		
-		
+		<% end %>
+
 		<% if @access.include? :gender %>
 			Sesso: <%= select :user, :gender, ["male", "female"], {}, { class: "form-control" } %><br>
 		<% end %>
-		
+
 		<% if @access.include? :user_type %>
 			Tipo utente: <%= select :user, :user_type, ["admin", "teacher", "student"], {}, { class: "form-control" } %><br>
 		<% end %>
-		
+
 		<%= f.submit "Aggiorna", class: [ "btn", "btn-success" ] %>
 	<% end %>
 <% else %>

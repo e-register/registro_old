@@ -2,7 +2,7 @@
 class ClassInfo < ActiveRecord::Base
 	# a class has an administrator (which is an user)
 	belongs_to :admin, :class_name => User
-	
+
 	# get a list of the students in the class
 	def get_students(sort = false)
 		if sort
@@ -13,7 +13,7 @@ class ClassInfo < ActiveRecord::Base
 			return Student.where(class_info: self).to_a.uniq
 		end
 	end
-	
+
 	# get a list of the teachers in the class
 	def get_teachers(sort = false)
 		if sort

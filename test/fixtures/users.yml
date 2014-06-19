@@ -28,5 +28,5 @@ user_stranger:
     user_type: <%= User.user_types[:student] %>
 user_admin:
     name: Administrator
-    surname: 
+    surname:
     user_type: <%= User.user_types[:admin] %>

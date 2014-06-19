@@ -27,11 +27,11 @@ class User < ActiveRecord::Base
 		t.user = self
 		if t.save
 			return t
-		else 
+		else
 			return nil
 		end
 	end
-	
+
 	# extract the classes where the user is in
 	def classes
 		if self.student?
@@ -40,12 +40,12 @@ class User < ActiveRecord::Base
 			return Teacher.where(teacher: self).to_a.map{ |e| e.class_info }.uniq
 		end
 	end
-	
+
 	# check if the user has a mutual class with an other user
 	def same_class? user
 		return (self.classes & user.classes).length > 0
 	end
-	
+
 	# extract the administrators of the classes where i'm in
 	def admins
 		c = self.classes
@@ -53,7 +53,7 @@ class User < ActiveRecord::Base
 		c.each { |class_info| a << class_info.admin }
 		return a.uniq
 	end
-	
+
 	def full_name
 		f = "#{name} #{surname}"
 		return f.strip
