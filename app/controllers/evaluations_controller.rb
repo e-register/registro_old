@@ -1,13 +1,13 @@
 class EvaluationsController < ApplicationController
 	include EvaluationsHelper
-	
+
 	before_filter :need_login
 	before_filter :validate_id, :only => [ :show_class, :show_user, :edit, :update, :destroy ]
-	
+
 	# this shows the list of evaluations
 	def index
 	end
-	
+
 	# this shows a single evaluation
 	def show
 		# if the id was passed, validate it
@@ -19,10 +19,10 @@ class EvaluationsController < ApplicationController
 			render :index
 			return
 		end
-		
+
 		begin
 			me = User.find session[:user_id]
-			@evaluation = Evaluation.find(params[:id])	
+			@evaluation = Evaluation.find(params[:id])
 			access = can_show? me, @evaluation
 			if not access
 				redirect_to eval_index_path
@@ -33,7 +33,7 @@ class EvaluationsController < ApplicationController
 			flash[:error] = "Valutazione non trovata"
 		end
 	end
-	
+
 	# this shows the list of the evaluations of a class
 	def show_class
 		begin
@@ -47,7 +47,7 @@ class EvaluationsController < ApplicationController
 		raw = Evaluation.get_from_class @class_info
 		@evaluations = can_show_multiple me, raw
 	end
-	
+
 	# this shows the list of the evaluations of a user
 	def show_user
 		begin
@@ -57,57 +57,52 @@ class EvaluationsController < ApplicationController
 			redirect_to eval_index_path
 			return
 		end
-		
+
 		me = User.find session[:user_id]
 		raw = Evaluation.get_from_user @user
-		start = Time.now
 		@evaluations = can_show_multiple me, raw
-		finish = Time.now
-		logger.debug "TEMPO IMPIEGATO: #{finish-start}"
-		logger.debug "VALUTAZIONI IN INGRESSO: #{raw.length}"
-		logger.debug "VALUTAZIONI IN USCITA: #{@evaluations.length}"
 	end
-	
+
 	# this shows a form to edit an evaluation
 	def edit
 		# TODO process the evaluation id
 	end
-	
+
 	# this perform the edit request
 	def update
 		# TODO process the evaluation id
 	end
-	
+
 	# this delete an evaluation
 	def destroy
 		# TODO process the delete request
 	end
-	
+
 	# this shows a form to create a new evaluation
 	def new
 		# TODO process the create request
 	end
-	
+
 	# this perform the create action
 	def create
 		# TODO process the create request
 	end
-	
+
 	# this shows a form to add a group of evaluations
 	def mult_new
 		# TODO process the multiple-create request
 	end
-	
+
 	# this perform the create of a group of evaluations
 	def mult_create
 		# TODO process the multiple-create request
 	end
-	
+
 	# ==================
 	#     PROTECTED
-	# ==================	
+	# ==================
 	protected
-	
+
 	# check if the id parameter is valid
 	def validate_id
 		unless params[:id] && params[:id].to_i > 0
@@ -115,7 +110,7 @@ class EvaluationsController < ApplicationController
 			redirect_to root_path
 		end
 	end
-	
+
 	# check if the user is logged in
 	def need_login
 		redirect_to login_path unless session[:token]
