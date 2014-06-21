@@ -1,0 +1,37 @@
+<div class="col-md-6 col-md-offset-3">
+  <%= form_for :update, method: "put" do |f| %>
+    <div class="page-header">
+      <h1>Modifica una valutazione</h1>
+    </div>
+    <h2>Classe</h2>
+    <%= f.select :class_info, [], {}, { class: "form-control" } %>
+    <h2>Docente</h2>
+    <%= f.select :teacher, [], {}, { class: "form-control" } %>
+    <h2>Materia</h2>
+    <%= f.select :subject, [], {}, { class: "form-control" } %>
+    <h2>Studente</h2>
+    <%= f.select :student, [], {}, { class: "form-control" } %>
+
+    <h2>Data</h2>
+    <%= f.date_field :date, value: Time.now.strftime("%d/%m/%Y") %>
+
+    <h2>Tipo</h2>
+    <%= radio_button "update", "evaluation_type", "written" %>
+    <%= f.label "evaluation_type_written", "Scritta" %>
+    <%= radio_button "update", "evaluation_type", "oral" %>
+    <%= f.label "evaluation_type_oral", "Orale" %>
+    <%= radio_button "update", "evaluation_type", "pratical" %>
+    <%= f.label "evaluation_type_pratical", "Pratica" %>
+
+    <h2>Altre informazioni</h2>
+    <%= f.text_area "description", class: "form-control", placeholder: "Descrizione" %>
+    <div class="input-group">
+      <%= f.select :student, [], {}, { class: "form-control" } %>
+      <span class="input-group-btn">
+        <%= f.button "+", name: "add_class_test", class: ["btn", "btn-default"] %>
+      </span>
+    </div>
+
+    <%= f.submit "Salva", class: ["btn", "btn-success"] %>
+  <% end %>
+</div>
