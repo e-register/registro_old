@@ -38,5 +38,5 @@ i modelli e come gestire tutto. Appena mi sarò impratichito bene il progetto
 avrà un rapido aumento di produzione.
 
 
-[![Build Status](https://travis-ci.org/registro-dev/registro.svg?branch=master)](https://travis-ci.org/registro-dev/registro)
+[![Build Status](https://travis-ci.org/e-register/e-register.svg?branch=master)](https://travis-ci.org/e-register/e-register)
 [![Coverage Status](https://coveralls.io/repos/registro-dev/registro/badge.png?branch=master)](https://coveralls.io/r/registro-dev/registro?branch=master)
